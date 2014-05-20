@@ -26,7 +26,8 @@ public class HuiLvZhi extends Activity {
 	}
 	
 	private void addItem() {
-		Toast.makeText(this, "add", Toast.LENGTH_LONG).show();
+		AddExchangeItemDialog dialog = new AddExchangeItemDialog(this);
+		dialog.show();
 	}
 	
 	private void editItem() {

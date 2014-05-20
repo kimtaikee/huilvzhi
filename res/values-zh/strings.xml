@@ -6,5 +6,9 @@
     <string name="action_add_item">添加</string>
     <string name="action_edit_item">编辑</string>
     <string name="action_about">关于</string>
+    <string name="button_text_cancel">取消</string>
+    <string name="button_text_apply">应用</string>
+    <string name="button_text_ok">好</string>
+    <string name="dialog_title_add_exchange_item">添加转换货币</string>
 
 </resources>
