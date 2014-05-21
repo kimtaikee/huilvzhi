@@ -7,7 +7,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:visibility="invisible" />
-   <TextView 
+   <com.jointcity.huilvzhi.CountryItem 
        android:id="@+id/textview_src_currency"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content" />
@@ -15,7 +15,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:src="@drawable/exchange_to" />
-   <TextView 
+   <com.jointcity.huilvzhi.CountryItem  
        android:id="@+id/textview_dst_currency" 
        android:layout_width="wrap_content"
        android:layout_height="wrap_content" />

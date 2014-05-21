@@ -4,18 +4,18 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class QueryManager {
+public class QueryCenter {
 
-	private static QueryManager m_instance;
+	private static QueryCenter m_instance;
 	private Context m_context;
 	
-	private QueryManager() {
+	private QueryCenter() {
 		
 	}
 	
-	public static QueryManager getInstance() {
+	public static QueryCenter getInstance() {
 		if (m_instance == null) {
-			m_instance = new QueryManager();
+			m_instance = new QueryCenter();
 		}
 		return m_instance;
 	}
