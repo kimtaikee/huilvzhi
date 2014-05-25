@@ -1,25 +1,26 @@
 package com.jointcity.huilvzhi;
 
-import android.R.integer;
+import android.R.bool;
 import android.content.Context;
-import android.content.DialogInterface.OnClickListener;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class ExchangeListItem extends LinearLayout {
 
 	private Context m_context;
-	private Button m_deleteButton;
-	private Button m_exchangeButton;
-	private Button m_calcButton;
+	private ImageButton m_deleteButton;
+	private CountryItem m_srcCountryItem;
+	private CountryItem m_dstCountryItem;
+
 	private View.OnClickListener m_deleteListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			// do delete stuff
+			Toast.makeText(m_context, "Delete", Toast.LENGTH_LONG).show();
 		}
 	};
 	private View.OnClickListener m_exchangeListener = new View.OnClickListener() {
@@ -34,33 +35,43 @@ public class ExchangeListItem extends LinearLayout {
 			// do calc stuff
 		}
 	};
-	
+
 	private void init(Context context) {
 		m_context = context;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.exchange_list_item, this, true);
-		
-		m_deleteButton = (Button) findViewById(R.id.button_delete);
+
+		m_deleteButton = (ImageButton) findViewById(R.id.button_delete);
 		m_deleteButton.setOnClickListener(m_deleteListener);
-		
-		m_exchangeButton = (Button) findViewById(R.id.button_exchange);
-		m_exchangeButton.setOnClickListener(m_exchangeListener);
-		
-		m_calcButton = (Button) findViewById(R.id.button_calc);
-		m_calcButton.setOnClickListener(m_calcListener);
+
+		m_srcCountryItem = (CountryItem) findViewById(R.id.countryitem_src_currency);
+		m_dstCountryItem = (CountryItem) findViewById(R.id.countryitem_dst_currency);
 	}
-	
+
 	public ExchangeListItem(Context context) {
 		this(context, null);
 	}
-	
+
 	public ExchangeListItem(Context context, AttributeSet attrset) {
 		this(context, attrset, 0);
 	}
-	
+
 	public ExchangeListItem(Context context, AttributeSet attrset, int defstyle) {
 		super(context, attrset, defstyle);
 		init(context);
 	}
-	
+
+	public void setFromCode(String code) {
+		m_srcCountryItem.setFlag(CodeToFlagMapper.getFlag(code));
+		m_srcCountryItem.setCurrencyCode(code);
+	}
+
+	public void setToCode(String code) {
+		m_dstCountryItem.setFlag(CodeToFlagMapper.getFlag(code));
+		m_dstCountryItem.setCurrencyCode(code);
+	}
+
+	public void setEditable(boolean editable) {
+		m_deleteButton.setVisibility(editable ? View.VISIBLE : View.GONE);
+	}
 }

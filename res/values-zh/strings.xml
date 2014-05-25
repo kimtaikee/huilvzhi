@@ -5,6 +5,7 @@
     <string name="action_settings">设置</string>
     <string name="action_add_item">添加</string>
     <string name="action_edit_item">编辑</string>
+    <string name="action_finish_item">完成</string>
     <string name="action_about">关于</string>
     <string name="button_text_cancel">取消</string>
     <string name="button_text_apply">应用</string>

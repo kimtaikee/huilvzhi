@@ -12,6 +12,7 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,28 +20,30 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 class CountryAdapter extends AbstractWheelTextAdapter {
-	
+
 	private Context m_context;
 	// Countries names
 	private String m_countries[];
 	// Countries flags
 	private int m_flags[];
 
-	private String capitalize(String ori) {
-		StringBuilder rackingSystemSb = new StringBuilder(ori.toLowerCase());
-		rackingSystemSb.setCharAt(0, Character.toUpperCase(rackingSystemSb.charAt(0)));
-		ori = rackingSystemSb.toString();
-		return ori;
+	private String getCurrencyCode(String ori) {
+		if (!ori.contains("_")) {
+			return ori.toUpperCase();
+		}else {
+			int underscoreIndex = TextUtils.indexOf(ori, '_');
+			String code = TextUtils.substring(ori, 0, underscoreIndex);
+			return code.toUpperCase();
+		}
 	}
-	
+
 	private void init() {
 		List<String> strlist = Arrays.asList(readStringFromResource(m_context, R.raw.countries).split("\n"));
-		Log.d("item count", String.valueOf(strlist.size()));
-		
+
 		m_countries = new String[strlist.size()];
 		for (int i = 0; i < strlist.size(); ++i)
-			m_countries[i] =  capitalize(strlist.get(i));
-		
+			m_countries[i] =  getCurrencyCode(strlist.get(i));
+
 		m_flags = new int[strlist.size()];
 		for (int i = 0; i < strlist.size(); ++i) 
 			m_flags[i] = m_context.getResources().getIdentifier(strlist.get(i), "drawable", m_context.getPackageName());

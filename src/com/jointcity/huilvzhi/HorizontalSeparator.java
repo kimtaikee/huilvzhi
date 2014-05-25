@@ -1,6 +1,5 @@
 package com.jointcity.huilvzhi;
 
-import android.R.integer;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

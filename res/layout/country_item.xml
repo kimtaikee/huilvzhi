@@ -1,16 +1,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:layout_marginLeft="@dimen/margin"
+    android:layout_marginRight="@dimen/margin" >
 
     <ImageView
         android:id="@+id/imageview_country_flag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:maxWidth="20dp"
+        android:maxHeight="10dp" />
 
     <TextView
         android:id="@+id/textview_currency_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:paddingLeft="@dimen/padding"/>
 
 </LinearLayout>

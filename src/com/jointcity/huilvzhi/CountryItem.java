@@ -12,6 +12,8 @@ public class CountryItem extends LinearLayout {
 	Context m_context;
 	ImageView m_flagImageView;
 	TextView m_currencyCodeTextView;
+	int m_flagId;
+	String m_currencyCode;
 	
 	private void init(Context context) {
 		m_context = context;
@@ -20,6 +22,11 @@ public class CountryItem extends LinearLayout {
 		
 		m_flagImageView = (ImageView) findViewById(R.id.imageview_country_flag);
 		m_currencyCodeTextView = (TextView) findViewById(R.id.textview_currency_code);
+	}
+	
+	private void update() {
+		m_flagImageView.setImageDrawable(getResources().getDrawable(m_flagId));
+		m_currencyCodeTextView.setText(m_currencyCode);
 	}
 	
 	public CountryItem(Context context) {
@@ -35,11 +42,25 @@ public class CountryItem extends LinearLayout {
 		init(context);
 	}
 	
-	public void setFlag(int flag_id) {
-		m_flagImageView.setImageDrawable(getResources().getDrawable(flag_id));
+	public void setFlag(int flagId) {
+		m_flagId = flagId;
+		update();
 	}
 	
 	public void setCurrencyCode(CharSequence code) {
-		m_currencyCodeTextView.setText(code);
+		m_currencyCode = String.valueOf(code);
+		update();
+	}
+	
+	public void swap(CountryItem other) {
+		int tmpId = this.m_flagId;
+		this.m_flagId = other.m_flagId;
+		other.m_flagId = tmpId;
+		
+		String tmpCode = this.m_currencyCode;
+		this.m_currencyCode = other.m_currencyCode;
+		other.m_currencyCode = tmpCode;
+		
+		update();
 	}
 }
