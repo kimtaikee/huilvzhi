@@ -10,6 +10,7 @@ import java.util.List;
 
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
+import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
@@ -18,11 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 class CountryAdapter extends AbstractWheelTextAdapter {
 
 	private Context m_context;
 	// Countries names
+	private String m_codes[];
 	private String m_countries[];
 	// Countries flags
 	private int m_flags[];
@@ -40,9 +43,13 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 	private void init() {
 		List<String> strlist = Arrays.asList(readStringFromResource(m_context, R.raw.countries).split("\n"));
 
+		m_codes = new String[strlist.size()];
 		m_countries = new String[strlist.size()];
-		for (int i = 0; i < strlist.size(); ++i)
-			m_countries[i] =  getCurrencyCode(strlist.get(i));
+		
+		for (int i = 0; i < strlist.size(); ++i) {
+			m_codes[i] =  getCurrencyCode(strlist.get(i));
+			m_countries[i] = strlist.get(i);
+		}
 
 		m_flags = new int[strlist.size()];
 		for (int i = 0; i < strlist.size(); ++i) 
@@ -88,6 +95,18 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 
 		return contents.toString();
 	}
+	
+	public String getCountryCode(int index) {
+		return m_codes[index];
+	}
+	
+	public int getCountryFlag(int index) {
+		return m_flags[index];
+	}
+	
+	public String getCountryName(int index) {
+		return m_countries[index];
+	}
 
 	@Override
 	public View getItem(int index, View cachedView, ViewGroup parent) {
@@ -99,12 +118,12 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 
 	@Override
 	public int getItemsCount() {
-		return m_countries.length;
+		return m_codes.length;
 	}
 
 	@Override
 	protected CharSequence getItemText(int index) {
-		return m_countries[index];
+		return m_codes[index];
 	}
 }
 
@@ -117,6 +136,7 @@ public class AddExchangeItemDialog extends Dialog {
 	private CountryAdapter m_dstCountryAdapter;
 	private Button m_cancelButton;
 	private Button m_okButton;
+	private DataSource m_dataSource = DataSource.getInstance();
 
 	private View.OnClickListener m_clickListener = new View.OnClickListener() {
 
@@ -125,10 +145,26 @@ public class AddExchangeItemDialog extends Dialog {
 			if (v.getId() == R.id.button_cancel) {
 				dismiss();
 			} else if (v.getId() == R.id.button_ok) {
+				addItem();
 				dismiss();
 			}
 		}
 	};
+	
+	private void addItem() {
+		String from = m_srcCountryAdapter.getCountryCode(m_srcCountryWheelView.getCurrentItem());
+		String fromCountry = m_srcCountryAdapter.getCountryName(m_srcCountryWheelView.getCurrentItem());
+		String to = m_dstCountryAdapter.getCountryCode(m_dstCountryWheelView.getCurrentItem());
+		String toCountry = m_dstCountryAdapter.getCountryName(m_dstCountryWheelView.getCurrentItem());
+		
+		if (m_dataSource.hasItem(from, to)) { 
+			String info;
+			info = from + "=>" + to + m_context.getResources().getString(R.string.prompt_item_exist);
+			Toast.makeText(m_context, info, Toast.LENGTH_LONG).show();
+		} else {
+			m_dataSource.addItem(from, fromCountry, to, toCountry);
+		}
+	}
 
 	private void init() {
 		m_srcCountryAdapter = new CountryAdapter(m_context);

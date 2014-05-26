@@ -14,5 +14,6 @@
     <string name="text_close">Close</string>
     <string name="info_about">HuiLvZhi 2014 JointCity All Rightst Reserved </string>
     <string name="title_about">About</string>
+    <string name="prompt_item_exist">has already exist!</string>
 
 </resources>

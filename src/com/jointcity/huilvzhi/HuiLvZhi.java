@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.security.PublicKey;
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -35,7 +36,16 @@ public class HuiLvZhi extends Activity {
 		m_isInEditMode = false;
 		m_itemsList = (ListView) findViewById(R.id.listview_exchange_list);
 		m_exchangeItems = new ArrayList<ExchangeListItem>();
-//		populate();
+		
+		for (int i = 0; i < exchangeItems.size(); ++i) {
+			ExchangeListItem eli = new ExchangeListItem(this);
+			// order really matters
+			eli.setFromFlag(exchangeItems.get(i).getFromCountry());
+			eli.setFromCode(exchangeItems.get(i).getFromCode());
+			eli.setToFlag(exchangeItems.get(i).getToCountry());
+			eli.setToCode(exchangeItems.get(i).getToCode());
+			m_exchangeItems.add(eli);
+		}
 		Log.d("populated item count:", String.valueOf(m_exchangeItems.size()));
 		m_itemsAdapter = new ExchangeListAdapter(this, m_exchangeItems);
 		m_itemsAdapter.notifyDataSetChanged();
@@ -52,15 +62,6 @@ public class HuiLvZhi extends Activity {
 			item.setTitle(R.string.action_finish_item);
 		else 
 			item.setTitle(R.string.action_edit_item);
-	}
-
-	private void populate() {
-		for (int i = 0; i < 10; ++i) {
-			ExchangeListItem item = new ExchangeListItem(this);
-			item.setFromCode("CNY");
-			item.setToCode("USD");
-			m_exchangeItems.add(item);
-		}
 	}
 
 	public void configOverflowMenu() {

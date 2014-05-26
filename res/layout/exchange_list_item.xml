@@ -20,6 +20,7 @@
         android:id="@+id/countryitem_src_currency"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="3" />
 
     <ImageView
@@ -32,6 +33,7 @@
     <com.jointcity.huilvzhi.CountryItem
         android:id="@+id/countryitem_dst_currency"
         android:layout_width="0dp"
+        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
         android:layout_weight="3" />
 

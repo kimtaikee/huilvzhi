@@ -14,5 +14,6 @@
     <string name="text_close">关闭</string>
     <string name="info_about">汇率知 2014 JointCity All Rightst Reserved </string>
     <string name="title_about">关于</string>
+    <string name="prompt_item_exist">已存在!</string>
 
 </resources>

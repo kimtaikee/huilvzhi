@@ -314,6 +314,7 @@ public final class R {
         public static final int button_text_ok=0x7f070008;
         public static final int dialog_title_add_exchange_item=0x7f070009;
         public static final int info_about=0x7f07000b;
+        public static final int prompt_item_exist=0x7f07000d;
         public static final int text_close=0x7f07000a;
         public static final int title_about=0x7f07000c;
     }

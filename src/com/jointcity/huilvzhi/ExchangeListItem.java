@@ -1,8 +1,8 @@
 package com.jointcity.huilvzhi;
 
-import android.R.bool;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -62,13 +62,21 @@ public class ExchangeListItem extends LinearLayout {
 	}
 
 	public void setFromCode(String code) {
-		m_srcCountryItem.setFlag(CodeToFlagMapper.getFlag(code));
 		m_srcCountryItem.setCurrencyCode(code);
 	}
 
 	public void setToCode(String code) {
-		m_dstCountryItem.setFlag(CodeToFlagMapper.getFlag(code));
 		m_dstCountryItem.setCurrencyCode(code);
+	}
+	
+	public void setFromFlag(String countryName) {
+		Log.d("from flag", countryName);
+		m_srcCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
+	}
+	
+	public void setToFlag(String countryName) {
+		Log.d("to flag", countryName);
+		m_dstCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 	}
 
 	public void setEditable(boolean editable) {

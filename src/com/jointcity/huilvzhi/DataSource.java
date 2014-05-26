@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 
 public class DataSource implements Serializable {
@@ -15,10 +16,16 @@ public class DataSource implements Serializable {
 	private Context m_context;
 	private SQLiteDatabase m_database;
 	private DatabaseHelper m_dbHelper;
+	private static DataSource sInstance;
+	
+	public static DataSource getInstance() {
+		return sInstance;
+	}
 	
 	public DataSource(Context context) {
 		m_dbHelper = new DatabaseHelper(context);
 		m_context = context;
+		sInstance = this;
 	}
 	
 	public void open() throws SQLException {
@@ -31,17 +38,19 @@ public class DataSource implements Serializable {
 	
 	public ArrayList<ExchangeItem> getAllItems() {
 		ArrayList<ExchangeItem> items = new ArrayList<ExchangeItem>();
-		String query = "SELECT " + DatabaseHelper.COLUMN_FROM_COUNTRY + "," + DatabaseHelper.COLUMN_TO_COUNTRY + "," + 
-					   DatabaseHelper.COLUMN_REVERSE + " FROM " + DatabaseHelper.TABLE_NAME;
+		String query = "SELECT " + DatabaseHelper.COLUMN_FROM_COUNTRY + "," + DatabaseHelper.COLUMN_FROM_COUNTRY_NAME +  "," +
+						DatabaseHelper.COLUMN_TO_COUNTRY  + "," + DatabaseHelper.COLUMN_TO_COUNTRY_NAME + 
+					   " FROM " + DatabaseHelper.TABLE_NAME;
 		Cursor cursor = m_database.rawQuery(query, null);
 		try {
 			cursor.moveToFirst();
 			
 			while (cursor.moveToNext()) {
 				String from = cursor.getString(0);
-				String to = cursor.getString(1);
-				boolean reversed = cursor.getInt(2) == 0 ? false : true;
-				ExchangeItem item = new ExchangeItem(from, to, reversed);
+				String fromCountry = cursor.getString(1);
+				String to = cursor.getString(2);
+				String toCountry = cursor.getString(3);
+				ExchangeItem item = new ExchangeItem(from, fromCountry, to, toCountry);
 				items.add(item);
 			}
 		} catch (Exception exp) {
@@ -51,14 +60,15 @@ public class DataSource implements Serializable {
 		return items;
 	}
 	
-	public void addItem(final String from, final String to) {
+	public void addItem(final String from, final String fromCountry, final String to, final String toCountry) {
 		if (hasItem(from, to))
 			return;
 		
 		ContentValues cons = new ContentValues();
 		cons.put(DatabaseHelper.COLUMN_FROM_COUNTRY, from);
+		cons.put(DatabaseHelper.COLUMN_FROM_COUNTRY_NAME, fromCountry);
 		cons.put(DatabaseHelper.COLUMN_TO_COUNTRY, to);
-		cons.put(DatabaseHelper.COLUMN_REVERSE, 0);
+		cons.put(DatabaseHelper.COLUMN_TO_COUNTRY_NAME, toCountry);
 		
 		m_database.insert(DatabaseHelper.TABLE_NAME, null, cons);
 	}
@@ -75,37 +85,21 @@ public class DataSource implements Serializable {
 						DatabaseHelper.COLUMN_FROM_COUNTRY + "='" + from + "' and " +
 						DatabaseHelper.COLUMN_TO_COUNTRY + "='" + to + "'";
 		
+		Log.d("hasItem query", query);
 		Cursor cursor = m_database.rawQuery(query, null);
-		return cursor.getCount() != 0;
-	}
-	
-	public boolean isItemReversed(final String from, final String to) {
-		
-		String query = "SELECT " + DatabaseHelper.COLUMN_REVERSE + " FROM " + DatabaseHelper.TABLE_NAME +
-					   " WHERE " + DatabaseHelper.COLUMN_FROM_COUNTRY + "='" + from +"' and " + 
-					   DatabaseHelper.COLUMN_TO_COUNTRY + "='" + to + "'";
-		
-		Cursor cursor = m_database.rawQuery(query, null);
-		boolean reverserd = false;
-		
+		Log.d("count", String.valueOf(cursor.getCount()));
+		boolean has = false;
 		try {
 			cursor.moveToFirst();
+			
 			while (cursor.moveToNext()) {
-				reverserd = cursor.getInt(0) == 1 ? true : false;
+				has = true;
+				break;
 			}
 		} catch (Exception exp) {
 			exp.printStackTrace();
 		}
 		
-		return reverserd;
+		return has;
 	}
-	
-	public boolean setItemReversed(final String from, final String to, boolean reverse) {
-		ContentValues cons = new ContentValues();
-		cons.put(DatabaseHelper.COLUMN_REVERSE, reverse ? 1 : 0);
-		String clause = DatabaseHelper.COLUMN_FROM_COUNTRY + "=? and " + DatabaseHelper.COLUMN_TO_COUNTRY + "=?";
-		String[] args = new String[] { from, to };
-		return m_database.update(DatabaseHelper.TABLE_NAME, cons, clause, args) > 0;
-	}
-	
 }
