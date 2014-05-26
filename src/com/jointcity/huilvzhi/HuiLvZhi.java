@@ -1,16 +1,21 @@
 package com.jointcity.huilvzhi;
 
 import java.lang.reflect.Field;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class HuiLvZhi extends Activity {
 
@@ -30,7 +35,7 @@ public class HuiLvZhi extends Activity {
 		m_isInEditMode = false;
 		m_itemsList = (ListView) findViewById(R.id.listview_exchange_list);
 		m_exchangeItems = new ArrayList<ExchangeListItem>();
-		populate();
+//		populate();
 		Log.d("populated item count:", String.valueOf(m_exchangeItems.size()));
 		m_itemsAdapter = new ExchangeListAdapter(this, m_exchangeItems);
 		m_itemsAdapter.notifyDataSetChanged();
@@ -83,7 +88,20 @@ public class HuiLvZhi extends Activity {
 	}
 
 	private void showAboutInfo() {
-		Toast.makeText(this, "about", Toast.LENGTH_LONG).show();
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.title_about);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.about_dialog, null);
+		builder.setView(v);
+		final AlertDialog dialog = builder.create();
+		Button closeButton = (Button) v.findViewById(R.id.button_close);
+		closeButton.setOnClickListener(new View.OnClickListener(){ 
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
 	}
 
 	@Override

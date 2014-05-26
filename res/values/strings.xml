@@ -11,5 +11,8 @@
     <string name="button_text_apply">Apply</string>
     <string name="button_text_ok">Ok</string>
     <string name="dialog_title_add_exchange_item">Add New Exchange Item</string>
+    <string name="text_close">Close</string>
+    <string name="info_about">HuiLvZhi 2014 JointCity All Rightst Reserved </string>
+    <string name="title_about">About</string>
 
 </resources>

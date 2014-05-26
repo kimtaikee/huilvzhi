@@ -63,6 +63,12 @@ public class DataSource implements Serializable {
 		m_database.insert(DatabaseHelper.TABLE_NAME, null, cons);
 	}
 	
+	public void deleteItem(final String from, final String to) {
+		String clause = DatabaseHelper.COLUMN_FROM_COUNTRY + "=? && " + DatabaseHelper.COLUMN_TO_COUNTRY + "=?";
+		String[] args = new String[] { from, to };
+		m_database.delete(DatabaseHelper.TABLE_NAME, clause, args);
+	}
+	
 	public boolean hasItem(final String from, final String to) {
 		
 		String query = "SELECT * FROM " + DatabaseHelper.TABLE_NAME + " WHERE " + 

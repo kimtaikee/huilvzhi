@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
     android:layout_marginLeft="@dimen/margin"
-    android:layout_marginRight="@dimen/margin" 
-    android:layout_marginTop="@dimen/margin" >
+    android:layout_marginRight="@dimen/margin"
+    android:layout_marginTop="@dimen/margin"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,29 +27,32 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1" />
     </LinearLayout>
-    
-    <com.jointcity.huilvzhi.HorizontalSeparator 
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content" />
+
+    <com.jointcity.huilvzhi.HorizontalSeparator
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:padding="@dimen/margin">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin" >
+
         <Button
             android:id="@+id/button_cancel"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/btnStyleBeige"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginRight="@dimen/margin"
             android:text="@string/button_text_cancel" />
 
         <Button
             android:id="@+id/button_ok"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/btnStyleBeige"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin"
             android:text="@string/button_text_ok" />
     </LinearLayout>
 

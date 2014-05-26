@@ -5,7 +5,6 @@
     android:layout_marginLeft="@dimen/margin"
     android:layout_marginRight="@dimen/margin"
     android:layout_marginTop="@dimen/margin"
-    android:background="@drawable/exchange_item_background"
     android:orientation="horizontal" >
 
     <ImageButton
@@ -13,6 +12,7 @@
         style="@style/myImageButton"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:descendantFocusability="blocksDescendants"
         android:src="@drawable/delete"
         android:visibility="gone" />
 
@@ -44,5 +44,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2" />
+
+    <ProgressBar
+        android:id="@+id/pgsbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1" />
 
 </LinearLayout>

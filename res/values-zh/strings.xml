@@ -11,5 +11,8 @@
     <string name="button_text_apply">应用</string>
     <string name="button_text_ok">好</string>
     <string name="dialog_title_add_exchange_item">添加转换货币</string>
+    <string name="text_close">关闭</string>
+    <string name="info_about">汇率知 2014 JointCity All Rightst Reserved </string>
+    <string name="title_about">关于</string>
 
 </resources>
