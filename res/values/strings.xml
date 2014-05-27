@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="exchange_list_context_menu">
+        <item>Calculate</item>
+        <item>Delete</item>
+    </string-array>
+    
     <string name="app_name">Huilvzhi</string>
     <string name="action_settings">Settings</string>
     <string name="action_add_item">Add Item</string>

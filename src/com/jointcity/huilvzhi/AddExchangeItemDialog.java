@@ -5,12 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
-import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
@@ -24,11 +24,18 @@ import android.widget.Toast;
 class CountryAdapter extends AbstractWheelTextAdapter {
 
 	private Context m_context;
+	private class CurrencyData {
+		public String code;
+		public String country;
+		public int flag;
+	}
 	// Countries names
-	private String m_codes[];
-	private String m_countries[];
-	// Countries flags
-	private int m_flags[];
+	
+	private List<CurrencyData> m_currencyData;
+//	private String m_codes[];
+//	private String m_countries[];
+//	// Countries flags
+//	private int m_flags[];
 
 	private String getCurrencyCode(String ori) {
 		if (!ori.contains("_")) {
@@ -43,17 +50,17 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 	private void init() {
 		List<String> strlist = Arrays.asList(readStringFromResource(m_context, R.raw.countries).split("\n"));
 
-		m_codes = new String[strlist.size()];
-		m_countries = new String[strlist.size()];
+		m_currencyData = new ArrayList<CurrencyData>();
+//		m_codes = new String[strlist.size()];
+//		m_countries = new String[strlist.size()];
 		
 		for (int i = 0; i < strlist.size(); ++i) {
-			m_codes[i] =  getCurrencyCode(strlist.get(i));
-			m_countries[i] = strlist.get(i);
+			CurrencyData data = new CurrencyData();
+			data.code = getCurrencyCode(strlist.get(i));
+			data.country = strlist.get(i);
+			data.flag = m_context.getResources().getIdentifier(strlist.get(i), "drawable", m_context.getPackageName()); 
+			m_currencyData.add(data);
 		}
-
-		m_flags = new int[strlist.size()];
-		for (int i = 0; i < strlist.size(); ++i) 
-			m_flags[i] = m_context.getResources().getIdentifier(strlist.get(i), "drawable", m_context.getPackageName());
 	}
 	/**
 	 * Constructor
@@ -97,38 +104,42 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 	}
 	
 	public String getCountryCode(int index) {
-		return m_codes[index];
+		return m_currencyData.get(index).code;
 	}
 	
 	public int getCountryFlag(int index) {
-		return m_flags[index];
+		return m_currencyData.get(index).flag;
 	}
 	
 	public String getCountryName(int index) {
-		return m_countries[index];
+		return m_currencyData.get(index).country;
 	}
 
 	@Override
 	public View getItem(int index, View cachedView, ViewGroup parent) {
 		View view = super.getItem(index, cachedView, parent);
 		ImageView img = (ImageView) view.findViewById(R.id.flag);
-		img.setImageResource(m_flags[index]);
+		img.setImageResource(getCountryFlag(index));
 		return view;
 	}
 
 	@Override
 	public int getItemsCount() {
-		return m_codes.length;
+		return m_currencyData.size();
 	}
 
 	@Override
 	protected CharSequence getItemText(int index) {
-		return m_codes[index];
+		return getCountryCode(index);
 	}
 }
 
 public class AddExchangeItemDialog extends Dialog {
 
+	public interface OnItemAddedListener {
+		public void OnItemAdded(String from, String fromCountry, String to, String toCountry);
+	}
+	
 	private Context m_context;
 	private WheelView m_srcCountryWheelView;
 	private WheelView m_dstCountryWheelView;
@@ -137,6 +148,7 @@ public class AddExchangeItemDialog extends Dialog {
 	private Button m_cancelButton;
 	private Button m_okButton;
 	private DataSource m_dataSource = DataSource.getInstance();
+	private OnItemAddedListener m_onItemAddedListener = null;
 
 	private View.OnClickListener m_clickListener = new View.OnClickListener() {
 
@@ -163,6 +175,10 @@ public class AddExchangeItemDialog extends Dialog {
 			Toast.makeText(m_context, info, Toast.LENGTH_LONG).show();
 		} else {
 			m_dataSource.addItem(from, fromCountry, to, toCountry);
+			
+			if (m_onItemAddedListener != null) {
+				m_onItemAddedListener.OnItemAdded(from, fromCountry, to, toCountry);
+			}
 		}
 	}
 
@@ -191,5 +207,9 @@ public class AddExchangeItemDialog extends Dialog {
 		m_context = context;
 		setContentView(R.layout.add_exchange_item_dialog);
 		init();
+	}
+	
+	public void setOnItemAddedListener(OnItemAddedListener listener) {
+		m_onItemAddedListener = listener;
 	}
 }

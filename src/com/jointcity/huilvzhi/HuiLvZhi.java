@@ -1,20 +1,21 @@
 package com.jointcity.huilvzhi;
 
 import java.lang.reflect.Field;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -31,19 +32,18 @@ public class HuiLvZhi extends Activity {
 		m_dataSource.open();
 		
 		ArrayList<ExchangeItem> exchangeItems = m_dataSource.getAllItems();
-		Log.d("Exchange Item Count", String.valueOf(exchangeItems.size()));
 		
 		m_isInEditMode = false;
 		m_itemsList = (ListView) findViewById(R.id.listview_exchange_list);
+		registerForContextMenu(m_itemsList);
 		m_exchangeItems = new ArrayList<ExchangeListItem>();
 		
 		for (int i = 0; i < exchangeItems.size(); ++i) {
 			ExchangeListItem eli = new ExchangeListItem(this);
 			// order really matters
-			eli.setFromFlag(exchangeItems.get(i).getFromCountry());
-			eli.setFromCode(exchangeItems.get(i).getFromCode());
-			eli.setToFlag(exchangeItems.get(i).getToCountry());
-			eli.setToCode(exchangeItems.get(i).getToCode());
+			eli.setFromData(exchangeItems.get(i).getFromCode(), exchangeItems.get(i).getFromCountry());
+			eli.setToData(exchangeItems.get(i).getToCode(), exchangeItems.get(i).getToCountry());
+			eli.startQuery();
 			m_exchangeItems.add(eli);
 		}
 		Log.d("populated item count:", String.valueOf(m_exchangeItems.size()));
@@ -80,6 +80,17 @@ public class HuiLvZhi extends Activity {
 
 	private void addItem() {
 		AddExchangeItemDialog dialog = new AddExchangeItemDialog(this);
+		dialog.setOnItemAddedListener(new AddExchangeItemDialog.OnItemAddedListener() {
+			@Override
+			public void OnItemAdded(String from, String fromCountry, String to, String toCountry) {
+				ExchangeListItem eli = new ExchangeListItem(HuiLvZhi.this);
+				eli.setFromData(from, fromCountry);
+				eli.setToData(to, toCountry);
+				eli.startQuery();
+				m_exchangeItems.add(eli);
+				m_itemsAdapter.notifyDataSetChanged();
+			}
+		});
 		dialog.show();
 	}
 
@@ -145,5 +156,26 @@ public class HuiLvZhi extends Activity {
 	public void onDestroy() {
 		m_dataSource.close();
 		super.onDestroy();
+	}
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		if (v.getId() == R.id.listview_exchange_list) {
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+			ExchangeListItem eli = m_exchangeItems.get(info.position);
+			String title = eli.getFromCode() + " => " + eli.getToCode();
+			menu.setHeaderTitle(title);
+			String[] menuItems = getResources().getStringArray(R.array.exchange_list_context_menu);
+			for (int i = 0; i < menuItems.length; ++i) {
+				menu.add(Menu.NONE, i, i, menuItems[i]);
+			}
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		Log.d("action", info.toString());
+		
+		return true;
 	}
 }

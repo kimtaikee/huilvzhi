@@ -16,6 +16,9 @@ public final class R {
         public static final int push_out_left=0x7f040004;
         public static final int push_out_right=0x7f040005;
     }
+    public static final class array {
+        public static final int exchange_list_context_menu=0x7f070000;
+    }
     public static final class attr {
     }
     public static final class dimen {
@@ -265,25 +268,25 @@ public final class R {
         public static final int zwd=0x7f0200e7;
     }
     public static final class id {
-        public static final int action_about=0x7f0a0012;
-        public static final int action_add_item=0x7f0a0010;
-        public static final int action_edit_item=0x7f0a0011;
-        public static final int button_cancel=0x7f0a0005;
-        public static final int button_close=0x7f0a0001;
-        public static final int button_delete=0x7f0a000b;
-        public static final int button_ok=0x7f0a0006;
-        public static final int country_name=0x7f0a000a;
-        public static final int countryitem_dst_currency=0x7f0a000d;
-        public static final int countryitem_src_currency=0x7f0a000c;
-        public static final int flag=0x7f0a0009;
-        public static final int imageview_country_flag=0x7f0a0007;
-        public static final int listview_exchange_list=0x7f0a0002;
-        public static final int pgsbar=0x7f0a000f;
-        public static final int textview_about_info=0x7f0a0000;
-        public static final int textview_currency_code=0x7f0a0008;
-        public static final int textview_rate=0x7f0a000e;
-        public static final int wheelview_dst_country=0x7f0a0004;
-        public static final int wheelview_src_country=0x7f0a0003;
+        public static final int action_about=0x7f0b0012;
+        public static final int action_add_item=0x7f0b0010;
+        public static final int action_edit_item=0x7f0b0011;
+        public static final int button_cancel=0x7f0b0005;
+        public static final int button_close=0x7f0b0001;
+        public static final int button_delete=0x7f0b000b;
+        public static final int button_ok=0x7f0b0006;
+        public static final int country_name=0x7f0b000a;
+        public static final int countryitem_dst_currency=0x7f0b000d;
+        public static final int countryitem_src_currency=0x7f0b000c;
+        public static final int flag=0x7f0b0009;
+        public static final int imageview_country_flag=0x7f0b0007;
+        public static final int listview_exchange_list=0x7f0b0002;
+        public static final int pgsbar=0x7f0b000f;
+        public static final int textview_about_info=0x7f0b0000;
+        public static final int textview_currency_code=0x7f0b0008;
+        public static final int textview_rate=0x7f0b000e;
+        public static final int wheelview_dst_country=0x7f0b0004;
+        public static final int wheelview_src_country=0x7f0b0003;
     }
     public static final class layout {
         public static final int about_dialog=0x7f030000;
@@ -297,26 +300,26 @@ public final class R {
         public static final int vertical_separator=0x7f030008;
     }
     public static final class menu {
-        public static final int hui_lv_zhi=0x7f090000;
+        public static final int hui_lv_zhi=0x7f0a0000;
     }
     public static final class raw {
         public static final int countries=0x7f050000;
     }
     public static final class string {
-        public static final int action_about=0x7f070005;
-        public static final int action_add_item=0x7f070002;
-        public static final int action_edit_item=0x7f070003;
-        public static final int action_finish_item=0x7f070004;
-        public static final int action_settings=0x7f070001;
-        public static final int app_name=0x7f070000;
-        public static final int button_text_apply=0x7f070007;
-        public static final int button_text_cancel=0x7f070006;
-        public static final int button_text_ok=0x7f070008;
-        public static final int dialog_title_add_exchange_item=0x7f070009;
-        public static final int info_about=0x7f07000b;
-        public static final int prompt_item_exist=0x7f07000d;
-        public static final int text_close=0x7f07000a;
-        public static final int title_about=0x7f07000c;
+        public static final int action_about=0x7f080005;
+        public static final int action_add_item=0x7f080002;
+        public static final int action_edit_item=0x7f080003;
+        public static final int action_finish_item=0x7f080004;
+        public static final int action_settings=0x7f080001;
+        public static final int app_name=0x7f080000;
+        public static final int button_text_apply=0x7f080007;
+        public static final int button_text_cancel=0x7f080006;
+        public static final int button_text_ok=0x7f080008;
+        public static final int dialog_title_add_exchange_item=0x7f080009;
+        public static final int info_about=0x7f08000b;
+        public static final int prompt_item_exist=0x7f08000d;
+        public static final int text_close=0x7f08000a;
+        public static final int title_about=0x7f08000c;
     }
     public static final class style {
         /** 
@@ -342,14 +345,14 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f090000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
-        public static final int btnStyleBeige=0x7f080005;
-        public static final int btnStyleSandrift=0x7f080004;
-        public static final int btnStyleSeagull=0x7f080003;
-        public static final int myImageButton=0x7f080002;
+        public static final int AppTheme=0x7f090001;
+        public static final int btnStyleBeige=0x7f090005;
+        public static final int btnStyleSandrift=0x7f090004;
+        public static final int btnStyleSeagull=0x7f090003;
+        public static final int myImageButton=0x7f090002;
     }
 }

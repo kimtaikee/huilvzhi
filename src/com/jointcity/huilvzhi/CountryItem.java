@@ -52,6 +52,10 @@ public class CountryItem extends LinearLayout {
 		update();
 	}
 	
+	public String getCurrencyCode() {
+		return m_currencyCode;
+	}
+	
 	public void swap(CountryItem other) {
 		int tmpId = this.m_flagId;
 		this.m_flagId = other.m_flagId;
