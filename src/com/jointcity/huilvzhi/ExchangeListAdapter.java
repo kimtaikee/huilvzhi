@@ -24,7 +24,8 @@ public class ExchangeListAdapter extends BaseAdapter {
 
 	@Override
 	public ExchangeListItem getItem(int index) {
-		return m_items.get(index);
+		ExchangeListItem eli = m_items.get(index);
+		return eli;
 	}
 
 	@Override
@@ -34,7 +35,8 @@ public class ExchangeListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
-		return getItem(pos);
+		ExchangeListItem eli = getItem(pos);
+		return eli;
 	}
 
 }

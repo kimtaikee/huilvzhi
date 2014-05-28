@@ -3,21 +3,29 @@ package com.jointcity.huilvzhi;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class HuiLvZhi extends Activity {
 
@@ -26,18 +34,22 @@ public class HuiLvZhi extends Activity {
 	private ArrayList<ExchangeListItem> m_exchangeItems;
 	private boolean m_isInEditMode;
 	private DataSource m_dataSource;
+	private static long m_backPressed;
+	private ImageButton m_closeBannerButton;
+	private static HuiLvZhi sInstance;
 
 	private void init() {
+		sInstance = this;
 		m_dataSource = new DataSource(this);
 		m_dataSource.open();
-		
+
 		ArrayList<ExchangeItem> exchangeItems = m_dataSource.getAllItems();
-		
+
 		m_isInEditMode = false;
 		m_itemsList = (ListView) findViewById(R.id.listview_exchange_list);
 		registerForContextMenu(m_itemsList);
 		m_exchangeItems = new ArrayList<ExchangeListItem>();
-		
+
 		for (int i = 0; i < exchangeItems.size(); ++i) {
 			ExchangeListItem eli = new ExchangeListItem(this);
 			// order really matters
@@ -56,6 +68,14 @@ public class HuiLvZhi extends Activity {
 		for (int i = 0; i < m_exchangeItems.size(); ++i) 
 			m_exchangeItems.get(i).setEditable(editable);
 	}
+
+	private boolean isNetworkAvailable() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		boolean isConnected = activeNetwork != null &&
+				activeNetwork.isConnectedOrConnecting();
+		return isConnected;
+	}	
 
 	private void updateMenuItemTitle(MenuItem item) {
 		if (m_isInEditMode) 
@@ -76,6 +96,10 @@ public class HuiLvZhi extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static HuiLvZhi getInstance() {
+		return sInstance;
 	}
 
 	private void addItem() {
@@ -115,6 +139,12 @@ public class HuiLvZhi extends Activity {
 		});
 		dialog.show();
 	}
+	
+	public void removeExchangeListItem(int index) {
+		m_exchangeItems.remove(index);
+		m_dataSource.deleteItem(m_exchangeItems.get(index).getFromCode(), m_exchangeItems.get(index).getToCode());
+		m_itemsAdapter.notifyDataSetChanged();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +152,18 @@ public class HuiLvZhi extends Activity {
 		configOverflowMenu();
 		setContentView(R.layout.activity_hui_lv_zhi);
 		init();
+
+		if (!isNetworkAvailable()) {
+			final ViewStub vs = (ViewStub) findViewById(R.id.viewstub_nonetworkbanner);
+			View v = vs.inflate();
+			m_closeBannerButton = (ImageButton) v.findViewById(R.id.imagebutton_close);
+			m_closeBannerButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					vs.setVisibility(View.GONE);
+				}
+			});
+		}
 	}
 
 	@Override
@@ -151,7 +193,7 @@ public class HuiLvZhi extends Activity {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		m_dataSource.close();
@@ -160,22 +202,40 @@ public class HuiLvZhi extends Activity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		if (v.getId() == R.id.listview_exchange_list) {
-			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-			ExchangeListItem eli = m_exchangeItems.get(info.position);
-			String title = eli.getFromCode() + " => " + eli.getToCode();
-			menu.setHeaderTitle(title);
-			String[] menuItems = getResources().getStringArray(R.array.exchange_list_context_menu);
-			for (int i = 0; i < menuItems.length; ++i) {
-				menu.add(Menu.NONE, i, i, menuItems[i]);
-			}
+			MenuInflater inflater = getMenuInflater();
+		    inflater.inflate(R.menu.exchange_list_context_menu, menu);
 		}
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		Log.d("action", info.toString());
+		int exchangeItemIndex = info.position;
+		ExchangeListItem exchangeItem = m_exchangeItems.get(exchangeItemIndex);
 		
-		return true;
+		switch (item.getItemId()) {
+		case R.id.action_calculate:
+			Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
+			startActivity(intent);
+			break;
+			
+		case R.id.action_delete:
+			removeExchangeListItem(exchangeItemIndex);
+			break;
+			
+		case R.id.action_update:
+			exchangeItem.startQuery();
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(m_backPressed +2000 > System.currentTimeMillis())
+			super.onBackPressed();
+		else
+			Toast.makeText(getBaseContext(), getResources().getString(R.string.text_double_press_quit),Toast.LENGTH_SHORT).show();
+		m_backPressed =System.currentTimeMillis();
 	}
 }

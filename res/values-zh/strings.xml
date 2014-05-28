@@ -4,6 +4,7 @@
     <string-array name="exchange_list_context_menu">
         <item>计算</item>
         <item>删除</item>
+        <item>更新</item>
     </string-array>
 
     <string name="app_name">汇率知</string>
@@ -12,6 +13,9 @@
     <string name="action_edit_item">编辑</string>
     <string name="action_finish_item">完成</string>
     <string name="action_about">关于</string>
+    <string name="action_calculate">计算</string>
+    <string name="action_delete">删除</string>
+    <string name="action_update">更新</string>
     <string name="button_text_cancel">取消</string>
     <string name="button_text_apply">应用</string>
     <string name="button_text_ok">好</string>
@@ -20,5 +24,9 @@
     <string name="info_about">汇率知 2014 JointCity All Rightst Reserved </string>
     <string name="title_about">关于</string>
     <string name="prompt_item_exist">已存在!</string>
+    <string name="text_double_press_quit">再按一次退出</string>
+    <string name="info_no_network">没有网络连接，请稍后再试</string>
+    <string name="info_no_rate">N/A</string>
+    <string name="calculator_name">计算器</string>
 
 </resources>

@@ -7,6 +7,7 @@ import java.net.URL;
 
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -52,12 +53,28 @@ public class ExchangeListItem extends LinearLayout {
 			}
 			return m_rate;
 		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			try {
+				if (m_rate.isEmpty())
+					m_rateTextView.setText(m_context.getResources().getString(R.string.info_no_rate));
+				else 
+					m_rateTextView.setText(m_rate);
+
+			} catch (Exception exp) {
+				exp.printStackTrace();
+			}
+
+			showProgressBar(false);
+
+		}
 	}
 
 	private View.OnClickListener m_deleteListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(m_context, "Delete", Toast.LENGTH_LONG).show();
+//			HuiLvZhi.getInstance().removeExchangeListItem(ExchangeListItem.this.m_index);
 		}
 	};
 
@@ -97,32 +114,26 @@ public class ExchangeListItem extends LinearLayout {
 		m_srcCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 		m_srcCountryItem.setCurrencyCode(code);
 	}
-	
+
 	void setToData(String code, String countryName) {
 		m_dstCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 		m_dstCountryItem.setCurrencyCode(code);
 	}
-	
+
 	public String getFromCode() {
 		return m_srcCountryItem.getCurrencyCode();
 	}
-	
+
 	public String getToCode() {
 		return m_dstCountryItem.getCurrencyCode();
 	}
-	
+
 	public void setEditable(boolean editable) {
 		m_deleteButton.setVisibility(editable ? View.VISIBLE : View.GONE);
 	}
 
 	public void startQuery() {
 		showProgressBar(true);
-
-		try {
-			m_rateTextView.setText(new Querier().execute().get());
-			showProgressBar(false);
-		} catch (Exception exp) {
-			exp.printStackTrace();
-		}
+		new Querier().execute();
 	}
 }

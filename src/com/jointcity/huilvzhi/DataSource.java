@@ -74,7 +74,7 @@ public class DataSource implements Serializable {
 	}
 	
 	public void deleteItem(final String from, final String to) {
-		String clause = DatabaseHelper.COLUMN_FROM_COUNTRY + "=? && " + DatabaseHelper.COLUMN_TO_COUNTRY + "=?";
+		String clause = DatabaseHelper.COLUMN_FROM_COUNTRY + "=? and " + DatabaseHelper.COLUMN_TO_COUNTRY + "=?";
 		String[] args = new String[] { from, to };
 		m_database.delete(DatabaseHelper.TABLE_NAME, clause, args);
 	}
