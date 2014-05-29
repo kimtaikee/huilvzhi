@@ -27,6 +27,17 @@
     <string name="text_double_press_quit">再按一次退出</string>
     <string name="info_no_network">没有网络连接，请稍后再试</string>
     <string name="info_no_rate">N/A</string>
-    <string name="calculator_name">计算器</string>
+    <string name="calculator_name">计算器</string><string name="text_calculator_one">1</string>
+	<string name="text_calculator_two">2</string>
+	<string name="text_calculator_three">3</string>
+	<string name="text_calculator_four">4</string>
+	<string name="text_calculator_five">5</string>
+	<string name="text_calculator_six">6</string>
+	<string name="text_calculator_seven">7</string>
+	<string name="text_calculator_eight">8</string>
+	<string name="text_calculator_nine">9</string>
+	<string name="text_calculator_zero">0</string>
+	<string name="text_calculator_equal">=</string>
+	<string name="text_calculator_clear">清除</string>
 
 </resources>

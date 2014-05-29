@@ -11,9 +11,11 @@ import android.R.integer;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -110,12 +112,12 @@ public class ExchangeListItem extends LinearLayout {
 		init(context);
 	}
 
-	void setFromData(String code, String countryName) {
+	public void setFromData(String code, String countryName) {
 		m_srcCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 		m_srcCountryItem.setCurrencyCode(code);
 	}
 
-	void setToData(String code, String countryName) {
+	public void setToData(String code, String countryName) {
 		m_dstCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 		m_dstCountryItem.setCurrencyCode(code);
 	}
@@ -127,6 +129,12 @@ public class ExchangeListItem extends LinearLayout {
 	public String getToCode() {
 		return m_dstCountryItem.getCurrencyCode();
 	}
+	
+	public boolean isValid() {
+		String rate = m_rateTextView.getText().toString();
+		boolean valid = !rate.isEmpty() && !TextUtils.equals(rate, getResources().getString(R.string.info_no_rate));
+		return valid;
+	}
 
 	public void setEditable(boolean editable) {
 		m_deleteButton.setVisibility(editable ? View.VISIBLE : View.GONE);
@@ -134,6 +142,7 @@ public class ExchangeListItem extends LinearLayout {
 
 	public void startQuery() {
 		showProgressBar(true);
+		m_rateTextView.setText("");
 		new Querier().execute();
 	}
 }

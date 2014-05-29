@@ -37,6 +37,7 @@ public class HuiLvZhi extends Activity {
 	private static long m_backPressed;
 	private ImageButton m_closeBannerButton;
 	private static HuiLvZhi sInstance;
+	private View m_bannerView;
 
 	private void init() {
 		sInstance = this;
@@ -58,6 +59,7 @@ public class HuiLvZhi extends Activity {
 			eli.startQuery();
 			m_exchangeItems.add(eli);
 		}
+
 		Log.d("populated item count:", String.valueOf(m_exchangeItems.size()));
 		m_itemsAdapter = new ExchangeListAdapter(this, m_exchangeItems);
 		m_itemsAdapter.notifyDataSetChanged();
@@ -97,7 +99,7 @@ public class HuiLvZhi extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static HuiLvZhi getInstance() {
 		return sInstance;
 	}
@@ -139,11 +141,31 @@ public class HuiLvZhi extends Activity {
 		});
 		dialog.show();
 	}
+
+	private void scrollDownList() {
+		m_itemsList.post(new Runnable(){
+			public void run() {
+				m_itemsList.setSelection(m_itemsList.getCount() - 1);
+			}});
+	}
 	
 	public void removeExchangeListItem(int index) {
 		m_exchangeItems.remove(index);
 		m_dataSource.deleteItem(m_exchangeItems.get(index).getFromCode(), m_exchangeItems.get(index).getToCode());
 		m_itemsAdapter.notifyDataSetChanged();
+	}
+
+	public void updateInvalidItems() {
+		for (int i = 0; i < m_exchangeItems.size(); ++i) {
+			if (!m_exchangeItems.get(i).isValid()) {
+				m_exchangeItems.get(i).startQuery();
+			}
+		}
+	}
+
+	public void hideNoNetworkBanner() {
+		if (m_bannerView != null) 
+			m_bannerView.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -155,8 +177,8 @@ public class HuiLvZhi extends Activity {
 
 		if (!isNetworkAvailable()) {
 			final ViewStub vs = (ViewStub) findViewById(R.id.viewstub_nonetworkbanner);
-			View v = vs.inflate();
-			m_closeBannerButton = (ImageButton) v.findViewById(R.id.imagebutton_close);
+			m_bannerView = vs.inflate();
+			m_closeBannerButton = (ImageButton) m_bannerView.findViewById(R.id.imagebutton_close);
 			m_closeBannerButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -178,6 +200,7 @@ public class HuiLvZhi extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_add_item:
 			addItem();
+			scrollDownList();
 			break;
 
 		case R.id.action_edit_item: 
@@ -203,7 +226,7 @@ public class HuiLvZhi extends Activity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		if (v.getId() == R.id.listview_exchange_list) {
 			MenuInflater inflater = getMenuInflater();
-		    inflater.inflate(R.menu.exchange_list_context_menu, menu);
+			inflater.inflate(R.menu.exchange_list_context_menu, menu);
 		}
 	}
 
@@ -212,17 +235,17 @@ public class HuiLvZhi extends Activity {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		int exchangeItemIndex = info.position;
 		ExchangeListItem exchangeItem = m_exchangeItems.get(exchangeItemIndex);
-		
+
 		switch (item.getItemId()) {
 		case R.id.action_calculate:
 			Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
 			startActivity(intent);
 			break;
-			
+
 		case R.id.action_delete:
 			removeExchangeListItem(exchangeItemIndex);
 			break;
-			
+
 		case R.id.action_update:
 			exchangeItem.startQuery();
 			break;
