@@ -2,17 +2,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/exchange_item_background"
-    android:minHeight="40dp"
+    android:minHeight="50dp"
+    android:animateLayoutChanges="true"
+    android:layout_marginTop="@dimen/margin"
+    android:layout_marginBottom="@dimen/margin"
     android:orientation="horizontal" >
-
-    <ImageButton
-        android:id="@+id/button_delete"
-        style="@style/myImageButton"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:descendantFocusability="blocksDescendants"
-        android:src="@drawable/delete"
-        android:visibility="gone" />
 
     <com.jointcity.huilvzhi.CountryItem
         android:id="@+id/countryitem_src_currency"
@@ -47,6 +41,7 @@
         android:layout_gravity="left|center_vertical"
         android:textSize="15sp"
         android:gravity="left"
+        android:textColor="#ffaa00"
         android:layout_weight="2" />
 
     <ProgressBar

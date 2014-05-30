@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -64,11 +66,6 @@ public class HuiLvZhi extends Activity {
 		m_itemsList.setAdapter(m_itemsAdapter);
 	}
 
-	private void setItemsEditable(boolean editable) {
-		for (int i = 0; i < m_exchangeItems.size(); ++i) 
-			m_exchangeItems.get(i).setEditable(editable);
-	}
-
 	private boolean isNetworkAvailable() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -118,11 +115,6 @@ public class HuiLvZhi extends Activity {
 		dialog.show();
 	}
 
-	private void editItem() {
-		m_isInEditMode = !m_isInEditMode;
-		setItemsEditable(m_isInEditMode);
-	}
-
 	private void showAboutInfo() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.title_about);
@@ -147,10 +139,22 @@ public class HuiLvZhi extends Activity {
 			}});
 	}
 	
-	public void removeExchangeListItem(int index) {
-		m_exchangeItems.remove(index);
-		m_dataSource.deleteItem(m_exchangeItems.get(index).getFromCode(), m_exchangeItems.get(index).getToCode());
-		m_itemsAdapter.notifyDataSetChanged();
+	public void removeExchangeListItem(final int index) {
+		final ExchangeListItem eli = m_exchangeItems.get(index);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setPositiveButton(R.string.text_yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            	m_exchangeItems.remove(index);
+            	m_dataSource.deleteItem(eli.getFromCode(), eli.getToCode());
+            	m_itemsAdapter.notifyDataSetChanged();
+            }
+        });
+		builder.setNegativeButton(R.string.text_no, null);
+		String msg = getResources().getString(R.string.prompt_delete_item) + eli.getFromCode() + "=>" + eli.getToCode();
+		builder.setMessage(msg);
+		builder.setTitle(R.string.title_delete_item);
+		builder.create().show();
 	}
 
 	public void updateInvalidItems() {
@@ -200,13 +204,6 @@ public class HuiLvZhi extends Activity {
 			addItem();
 			scrollDownList();
 			break;
-
-		case R.id.action_edit_item: 
-		{
-			editItem();
-			updateMenuItemTitle(item);
-		}
-		break;
 
 		case R.id.action_about:
 			showAboutInfo();

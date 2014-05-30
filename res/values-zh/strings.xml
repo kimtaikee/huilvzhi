@@ -39,5 +39,9 @@
 	<string name="text_calculator_zero">0</string>
 	<string name="text_calculator_equal">=</string>
 	<string name="text_calculator_clear">清除</string>
+	<string name="text_yes">好</string>
+	<string name="text_no">不</string>
+	<string name="prompt_delete_item">确定要删除</string>
+	<string name="title_delete_item">删除</string>
 
 </resources>

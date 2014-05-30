@@ -26,7 +26,6 @@ import android.widget.Toast;
 public class ExchangeListItem extends LinearLayout {
 
 	private Context m_context;
-	private ImageButton m_deleteButton;
 	private CountryItem m_srcCountryItem;
 	private CountryItem m_dstCountryItem;
 	private ProgressBar m_pgsBar;
@@ -86,9 +85,6 @@ public class ExchangeListItem extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.exchange_list_item, this, true);
 
-		m_deleteButton = (ImageButton) findViewById(R.id.button_delete);
-		m_deleteButton.setOnClickListener(m_deleteListener);
-
 		m_srcCountryItem = (CountryItem) findViewById(R.id.countryitem_src_currency);
 		m_dstCountryItem = (CountryItem) findViewById(R.id.countryitem_dst_currency);
 		m_pgsBar = (ProgressBar) findViewById(R.id.pgsbar);
@@ -137,10 +133,6 @@ public class ExchangeListItem extends LinearLayout {
 		return valid;
 	}
 
-	public void setEditable(boolean editable) {
-		m_deleteButton.setVisibility(editable ? View.VISIBLE : View.GONE);
-	}
-	
 	public String getRate() {
 		return m_rate;
 	}
