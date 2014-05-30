@@ -39,5 +39,5 @@
 	<string name="text_calculator_nine">9</string>
 	<string name="text_calculator_zero">0</string>
 	<string name="text_calculator_equal">=</string>
-	<string name="text_calculator_clear">Clear</string>
+	<string name="text_calculator_dot">.</string>
 </resources>

@@ -3,7 +3,6 @@ package com.jointcity.huilvzhi;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -60,7 +59,6 @@ public class HuiLvZhi extends Activity {
 			m_exchangeItems.add(eli);
 		}
 
-		Log.d("populated item count:", String.valueOf(m_exchangeItems.size()));
 		m_itemsAdapter = new ExchangeListAdapter(this, m_exchangeItems);
 		m_itemsAdapter.notifyDataSetChanged();
 		m_itemsList.setAdapter(m_itemsAdapter);
@@ -239,6 +237,9 @@ public class HuiLvZhi extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_calculate:
 			Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
+			String code = exchangeItem.getFromCode() + "=>" + exchangeItem.getToCode();
+			intent.putExtra(Calculator.CURRENCY_CODE, code);
+			intent.putExtra(Calculator.RATE, exchangeItem.getRate());
 			startActivity(intent);
 			break;
 

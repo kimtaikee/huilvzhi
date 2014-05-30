@@ -31,9 +31,10 @@ public class ExchangeListItem extends LinearLayout {
 	private CountryItem m_dstCountryItem;
 	private ProgressBar m_pgsBar;
 	private TextView m_rateTextView;
+	private String m_rate;
+	
 	private class Querier extends AsyncTask <String, Integer, String>{
 
-		private String m_rate;
 		@Override
 		protected String doInBackground(String... params) {
 			try {
@@ -138,6 +139,10 @@ public class ExchangeListItem extends LinearLayout {
 
 	public void setEditable(boolean editable) {
 		m_deleteButton.setVisibility(editable ? View.VISIBLE : View.GONE);
+	}
+	
+	public String getRate() {
+		return m_rate;
 	}
 
 	public void startQuery() {

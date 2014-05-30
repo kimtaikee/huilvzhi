@@ -1,7 +1,12 @@
 package com.jointcity.huilvzhi;
 
+import java.math.BigDecimal;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -9,6 +14,9 @@ import android.widget.TextView;
 
 public class Calculator extends SlideActivity implements OnClickListener {
 
+	public static final String CURRENCY_CODE = "CurrencyCode";
+	public static final String RATE = "Rate";
+	
 	private float m_rate = 99;
 	private TextView m_codeTextView;
 	private TextView m_rateTextView;
@@ -24,12 +32,33 @@ public class Calculator extends SlideActivity implements OnClickListener {
 	private Button m_buttonNine;
 	private Button m_buttonZero;
 	private Button m_buttonEqual;
-	private Button m_buttonClear;
+	private Button m_buttonDot;
+
+	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+		@Override
+		public boolean onDoubleTap(MotionEvent e) {
+			m_resultTextView.setText("0");
+			return true;
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	GestureDetector m_gestureDetector = new GestureDetector(new GestureListener());
+	
+	View.OnTouchListener m_touchListener = new View.OnTouchListener() {
+		public boolean onTouch(View v, MotionEvent event) {
+			m_gestureDetector.onTouchEvent(event);
+			return true;
+		}
+	};
 
 	private void init() {
 		m_codeTextView = (TextView) findViewById(R.id.textview_code);
 		m_rateTextView = (TextView) findViewById(R.id.textview_rate);
 		m_resultTextView = (TextView) findViewById(R.id.textview_result);
+		m_resultTextView.setOnTouchListener(m_touchListener);
+		
 		m_buttonOne = (Button) findViewById(R.id.button_one);
 		m_buttonTwo = (Button) findViewById(R.id.button_two);
 		m_buttonThree = (Button) findViewById(R.id.button_three);
@@ -41,7 +70,7 @@ public class Calculator extends SlideActivity implements OnClickListener {
 		m_buttonNine = (Button) findViewById(R.id.button_nine);
 		m_buttonZero = (Button) findViewById(R.id.button_zero);
 		m_buttonEqual = (Button) findViewById(R.id.button_equal);
-		m_buttonClear = (Button) findViewById(R.id.button_clear);
+		m_buttonDot = (Button) findViewById(R.id.button_dot);
 
 		m_buttonOne.setOnClickListener(this);
 		m_buttonTwo.setOnClickListener(this);
@@ -54,13 +83,33 @@ public class Calculator extends SlideActivity implements OnClickListener {
 		m_buttonNine.setOnClickListener(this);
 		m_buttonZero.setOnClickListener(this);
 		m_buttonEqual.setOnClickListener(this);
-		m_buttonClear.setOnClickListener(this);
+		m_buttonDot.setOnClickListener(this);
+
+		m_buttonOne.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonTwo.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonThree.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonFour.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonFive.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonSix.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonSeven.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonEight.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonNine.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonZero.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonEqual.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+		m_buttonDot.playSoundEffect(android.view.SoundEffectConstants.CLICK);
+
+		Intent intent = getIntent();
+		m_rate = Float.parseFloat(intent.getStringExtra(RATE));
+		m_rateTextView.setText(String.valueOf(m_rate));
+		m_codeTextView.setText(intent.getStringExtra(CURRENCY_CODE));
 	}
 
 	private void calcResult() {
 		try {
 			double num = Double.parseDouble(m_resultTextView.getText().toString());
 			double result = num * m_rate;
+			BigDecimal b = new BigDecimal(result);
+			result = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 			m_resultTextView.setText(String.valueOf(result));
 		} catch (Exception exp) {
 			exp.printStackTrace();
@@ -137,9 +186,15 @@ public class Calculator extends SlideActivity implements OnClickListener {
 			calcResult();
 			return;
 
-		case R.id.button_clear:
-			m_resultTextView.setText("0");
-			return;
+		case R.id.button_dot:
+			String value2 = m_resultTextView.getText().toString();
+			if (value2.contains(".") || value2.isEmpty()) 
+				return;
+			else {
+				value2 += ".";
+				m_resultTextView.setText(value2);
+				return;
+			}
 		}
 
 		m_resultTextView.setText(value);
