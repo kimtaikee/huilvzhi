@@ -33,7 +33,6 @@ public class HuiLvZhi extends Activity {
 	private ExchangeListAdapter m_itemsAdapter;
 	private ListView m_itemsList;
 	private ArrayList<ExchangeListItem> m_exchangeItems;
-	private boolean m_isInEditMode;
 	private DataSource m_dataSource;
 	private static long m_backPressed;
 	private ImageButton m_closeBannerButton;
@@ -47,7 +46,6 @@ public class HuiLvZhi extends Activity {
 
 		ArrayList<ExchangeItem> exchangeItems = m_dataSource.getAllItems();
 
-		m_isInEditMode = false;
 		m_itemsList = (ListView) findViewById(R.id.listview_exchange_list);
 		registerForContextMenu(m_itemsList);
 		m_exchangeItems = new ArrayList<ExchangeListItem>();
@@ -73,13 +71,6 @@ public class HuiLvZhi extends Activity {
 				activeNetwork.isConnectedOrConnecting();
 		return isConnected;
 	}	
-
-	private void updateMenuItemTitle(MenuItem item) {
-		if (m_isInEditMode) 
-			item.setTitle(R.string.action_finish_item);
-		else 
-			item.setTitle(R.string.action_edit_item);
-	}
 
 	public void configOverflowMenu() {
 		try {
@@ -234,8 +225,8 @@ public class HuiLvZhi extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_calculate:
 			Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
-			String code = exchangeItem.getFromCode() + "=>" + exchangeItem.getToCode();
-			intent.putExtra(Calculator.CURRENCY_CODE, code);
+			intent.putExtra(Calculator.CURRENCY_FROM_CODE, exchangeItem.getFromCode());
+			intent.putExtra(Calculator.CURRENCY_TO_CODE, exchangeItem.getToCode());
 			intent.putExtra(Calculator.RATE, exchangeItem.getRate());
 			startActivity(intent);
 			break;

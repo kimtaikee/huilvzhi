@@ -2,22 +2,30 @@ package com.jointcity.huilvzhi;
 
 import java.math.BigDecimal;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class Calculator extends SlideActivity implements OnClickListener {
 
-	public static final String CURRENCY_CODE = "CurrencyCode";
+	public static final String CURRENCY_FROM_CODE = "CurrencyFromCode";
+	public static final String CURRENCY_TO_CODE = "CurrencyToCode";
 	public static final String RATE = "Rate";
 	
-	private float m_rate = 99;
+	private float m_rate;
+	private float m_converseRate;
+	private String m_fromCode;
+	private String m_toCode;
+	private boolean m_isExchanged;
 	private TextView m_codeTextView;
 	private TextView m_rateTextView;
 	private TextView m_resultTextView;
@@ -33,6 +41,8 @@ public class Calculator extends SlideActivity implements OnClickListener {
 	private Button m_buttonZero;
 	private Button m_buttonEqual;
 	private Button m_buttonDot;
+	private ImageButton m_exchangeButton;
+	private Vibrator m_vibrator;
 
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -54,6 +64,8 @@ public class Calculator extends SlideActivity implements OnClickListener {
 	};
 
 	private void init() {
+		m_isExchanged = false;
+		
 		m_codeTextView = (TextView) findViewById(R.id.textview_code);
 		m_rateTextView = (TextView) findViewById(R.id.textview_rate);
 		m_resultTextView = (TextView) findViewById(R.id.textview_result);
@@ -71,6 +83,13 @@ public class Calculator extends SlideActivity implements OnClickListener {
 		m_buttonZero = (Button) findViewById(R.id.button_zero);
 		m_buttonEqual = (Button) findViewById(R.id.button_equal);
 		m_buttonDot = (Button) findViewById(R.id.button_dot);
+		m_exchangeButton = (ImageButton) findViewById(R.id.button_exchange);
+		m_exchangeButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				exchange();
+			}
+		});
 
 		m_buttonOne.setOnClickListener(this);
 		m_buttonTwo.setOnClickListener(this);
@@ -100,14 +119,44 @@ public class Calculator extends SlideActivity implements OnClickListener {
 
 		Intent intent = getIntent();
 		m_rate = Float.parseFloat(intent.getStringExtra(RATE));
+		
+		BigDecimal b = new BigDecimal(1/m_rate);
+		m_converseRate = b.setScale(2,BigDecimal.ROUND_HALF_UP).floatValue();
+		
 		m_rateTextView.setText(String.valueOf(m_rate));
-		m_codeTextView.setText(intent.getStringExtra(CURRENCY_CODE));
+		m_fromCode = intent.getStringExtra(CURRENCY_FROM_CODE);
+		m_toCode = intent.getStringExtra(CURRENCY_TO_CODE);
+		
+		final String combinedCode = m_fromCode + "=>" + m_toCode; 
+		m_codeTextView.setText(combinedCode);
+		
+		m_vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+	}
+	
+	private void exchange() {
+		m_isExchanged = !m_isExchanged;
+		
+		String combinedCode;
+		if (m_isExchanged) {
+			combinedCode = m_toCode + "=>" + m_fromCode;
+			m_rateTextView.setText(String.valueOf(m_converseRate));
+		} else {
+			combinedCode = m_fromCode + "=>" + m_toCode;
+			m_rateTextView.setText(String.valueOf(m_rate));
+		}
+		
+		m_codeTextView.setText(combinedCode);
 	}
 
 	private void calcResult() {
 		try {
 			double num = Double.parseDouble(m_resultTextView.getText().toString());
-			double result = num * m_rate;
+			double result = 0;
+			if (m_isExchanged) 
+				result = num * m_converseRate;
+			else 
+				result = num * m_rate;
+				
 			BigDecimal b = new BigDecimal(result);
 			result = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 			m_resultTextView.setText(String.valueOf(result));
@@ -138,6 +187,7 @@ public class Calculator extends SlideActivity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		String value = m_resultTextView.getText().toString();
+		m_vibrator.vibrate(50);
 
 		switch (id) {
 		case R.id.button_one:

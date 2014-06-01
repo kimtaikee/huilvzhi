@@ -36,6 +36,18 @@
         <item name="android:textSize">40sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+    
+    <style name="calculatorEqualButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+        <item name="android:layout_marginTop">@dimen/margin</item>
+        <item name="android:layout_marginBottom">@dimen/margin</item>
+        <item name="android:background">@drawable/calculator_equal_button</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 
     <style name="calculatorTextView">
         <item name="android:gravity">center</item>
