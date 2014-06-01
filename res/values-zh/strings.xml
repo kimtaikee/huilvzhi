@@ -14,6 +14,7 @@
     <string name="action_finish_item">完成</string>
     <string name="action_about">关于</string>
     <string name="action_calculate">计算</string>
+    <string name="action_historical_chart">历史数据图表</string>
     <string name="action_delete">删除</string>
     <string name="action_update">更新</string>
     <string name="button_text_cancel">取消</string>
@@ -28,6 +29,7 @@
     <string name="info_no_network">没有网络连接，请稍后再试</string>
     <string name="info_no_rate">N/A</string>
     <string name="calculator_name">计算器</string><string name="text_calculator_one">1</string>
+    <string name="historical_chart_name">历史数据图表</string>
 	<string name="text_calculator_two">2</string>
 	<string name="text_calculator_three">3</string>
 	<string name="text_calculator_four">4</string>
@@ -41,7 +43,11 @@
 	<string name="text_calculator_clear">清除</string>
 	<string name="text_yes">好</string>
 	<string name="text_no">不</string>
+	<string name="text_query">查询</string>
 	<string name="prompt_delete_item">确定要删除</string>
 	<string name="title_delete_item">删除</string>
+	<string name="item_year">年</string>
+	<string name="item_month">月</string>
+	<string name="item_day">日</string>
 
 </resources>

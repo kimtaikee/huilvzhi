@@ -14,6 +14,7 @@
     <string name="action_finish_item">Finish</string>
     <string name="action_about">About</string>
     <string name="action_calculate">Calculate</string>
+    <string name="action_historical_chart">Historical Data Chart</string>
     <string name="action_delete">Delete</string>
     <string name="action_update">Update</string>
     <string name="button_text_cancel">Cancel</string>
@@ -28,6 +29,7 @@
 	<string name="info_no_network">Network is down, please do it later !</string>
 	<string name="info_no_rate">N/A</string>
 	<string name="calculator_name">Calculator</string>
+	<string name="historical_chart_name">Historical Chart</string>
 	<string name="text_calculator_one">1</string>
 	<string name="text_calculator_two">2</string>
 	<string name="text_calculator_three">3</string>
@@ -42,6 +44,10 @@
 	<string name="text_calculator_dot">.</string>
 	<string name="text_yes">Yes</string>
 	<string name="text_no">No</string>
+	<string name="text_query">Query</string>
 	<string name="prompt_delete_item">Are you sure to delete </string>
 	<string name="title_delete_item">Delete</string>
+	<string name="item_year">Year</string>
+	<string name="item_month">Month</string>
+	<string name="item_day">Day</string>
 </resources>

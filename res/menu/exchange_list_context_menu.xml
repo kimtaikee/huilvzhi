@@ -12,6 +12,11 @@
         android:showAsAction="never"
         android:title="@string/action_update"/>
     <item
+        android:id="@+id/action_historical_chart"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_historical_chart"/>
+    <item
         android:id="@+id/action_delete"
         android:icon="@drawable/delete"
         android:orderInCategory="100"

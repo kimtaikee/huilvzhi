@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#4b4b4b"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageview_historical_chart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_weight="2"
+        android:orientation="horizontal" >
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheelview_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1" />
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheelview_num"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        style="@style/calculatorButton"
+        android:id="@+id/button_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_query" />
+
+</LinearLayout>

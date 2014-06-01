@@ -29,6 +29,9 @@
         <activity
             android:name="com.jointcity.huilvzhi.Calculator"
             android:label="@string/calculator_name" />
+        <activity 
+            android:name="com.jointcity.huilvzhi.HistoricalChartActivity"
+            android:label="@string/historical_chart_name" />
 
         <receiver
             android:name="com.jointcity.huilvzhi.NetworkChangeReceiver"

@@ -130,6 +130,13 @@ public class HuiLvZhi extends Activity {
 			}});
 	}
 	
+	private void queryHistoricalChart(ExchangeListItem eli) {
+		Intent intent = new Intent(this, HistoricalChartActivity.class);
+		intent.putExtra(Calculator.CURRENCY_FROM_CODE, eli.getFromCode());
+		intent.putExtra(Calculator.CURRENCY_TO_CODE, eli.getToCode());
+		startActivity(intent);
+	}
+	
 	public void removeExchangeListItem(final int index) {
 		final ExchangeListItem eli = m_exchangeItems.get(index);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -237,6 +244,10 @@ public class HuiLvZhi extends Activity {
 
 		case R.id.action_update:
 			exchangeItem.startQuery();
+			break;
+			
+		case R.id.action_historical_chart:
+			queryHistoricalChart(exchangeItem);
 			break;
 		}
 		return super.onContextItemSelected(item);

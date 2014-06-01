@@ -29,13 +29,8 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 		public String country;
 		public int flag;
 	}
-	// Countries names
 	
 	private List<CurrencyData> m_currencyData;
-//	private String m_codes[];
-//	private String m_countries[];
-//	// Countries flags
-//	private int m_flags[];
 
 	private String getCurrencyCode(String ori) {
 		if (!ori.contains("_")) {
@@ -49,10 +44,7 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 
 	private void init() {
 		List<String> strlist = Arrays.asList(readStringFromResource(m_context, R.raw.countries).split("\n"));
-
 		m_currencyData = new ArrayList<CurrencyData>();
-//		m_codes = new String[strlist.size()];
-//		m_countries = new String[strlist.size()];
 		
 		for (int i = 0; i < strlist.size(); ++i) {
 			CurrencyData data = new CurrencyData();
@@ -62,9 +54,7 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 			m_currencyData.add(data);
 		}
 	}
-	/**
-	 * Constructor
-	 */
+
 	protected CountryAdapter(Context context) {
 		super(context, R.layout.country_layout, NO_RESOURCE);
 		m_context = context;
