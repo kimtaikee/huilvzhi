@@ -123,7 +123,7 @@ public class Calculator extends SlideActivity implements OnClickListener {
 		BigDecimal b = new BigDecimal(1/m_rate);
 		m_converseRate = b.setScale(2,BigDecimal.ROUND_HALF_UP).floatValue();
 		
-		m_rateTextView.setText(String.valueOf(m_rate));
+		m_rateTextView.setText(String.valueOf(m_rate) + "x");
 		m_fromCode = intent.getStringExtra(CURRENCY_FROM_CODE);
 		m_toCode = intent.getStringExtra(CURRENCY_TO_CODE);
 		
@@ -139,10 +139,10 @@ public class Calculator extends SlideActivity implements OnClickListener {
 		String combinedCode;
 		if (m_isExchanged) {
 			combinedCode = m_toCode + "=>" + m_fromCode;
-			m_rateTextView.setText(String.valueOf(m_converseRate));
+			m_rateTextView.setText(String.valueOf(m_converseRate) + "x");
 		} else {
 			combinedCode = m_fromCode + "=>" + m_toCode;
-			m_rateTextView.setText(String.valueOf(m_rate));
+			m_rateTextView.setText(String.valueOf(m_rate) + "x");
 		}
 		
 		m_codeTextView.setText(combinedCode);

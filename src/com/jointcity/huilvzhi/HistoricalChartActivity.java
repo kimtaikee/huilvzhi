@@ -26,24 +26,13 @@ import android.widget.TextView;
 
 class TypeAdapter extends AbstractWheelTextAdapter {
 
-	private Context m_context;
 	private String[] m_types;
 
 	protected TypeAdapter(Context context) {
-		super(context, R.layout.chart_type, NO_RESOURCE);
-		m_context = context;
+		super(context);
 		m_types = new String[] { context.getResources().getString(R.string.item_year), 
 				context.getResources().getString(R.string.item_month), 
 				context.getResources().getString(R.string.item_day) }; 
-		setItemTextResource(R.id.textview_type);
-	}
-
-	@Override
-	public View getItem(int index, View cachedView, ViewGroup parent) {
-		View view = super.getItem(index, cachedView, parent);
-		TextView tv = (TextView) view.findViewById(R.id.textview_type);
-		tv.setText(getItemText(index));
-		return view;
 	}
 
 	@Override
@@ -122,10 +111,10 @@ class NumericWheelAdapter extends AbstractWheelTextAdapter {
 
 public class HistoricalChartActivity extends SlideActivity {
 
-	class ImageDownloader extends AsyncTask<String, Integer, Drawable> {
+	class ImageDownloader extends AsyncTask<String, Integer, Bitmap> {
 
 		@Override
-		protected Drawable doInBackground(String... arg0) {
+		protected Bitmap doInBackground(String... arg0) {
 			// This is done in a background thread
 			return downloadImage(arg0[0]);
 		}
@@ -134,9 +123,9 @@ public class HistoricalChartActivity extends SlideActivity {
 		 * Called after the image has been downloaded
 		 * -> this calls a function on the main thread again
 		 */
-		protected void onPostExecute(Drawable image)
+		protected void onPostExecute(Bitmap image)
 		{
-			m_chartImageView.setImageDrawable(image);
+			m_chartImageView.setImageBitmap(image);
 		}
 
 
@@ -145,7 +134,7 @@ public class HistoricalChartActivity extends SlideActivity {
 		 * @param _url
 		 * @return
 		 */
-		private Drawable downloadImage(String _url)
+		private Bitmap downloadImage(String _url)
 		{
 			//Prepare to download image
 			URL url;        
@@ -187,7 +176,7 @@ public class HistoricalChartActivity extends SlideActivity {
 					buf.close();
 				}
 
-				return new BitmapDrawable(getResources(), bMap);
+				return bMap;
 
 			} catch (Exception e) {
 				Log.e("Error reading file", e.toString());
@@ -200,7 +189,7 @@ public class HistoricalChartActivity extends SlideActivity {
 
 	private String m_fromCode;
 	private String m_toCode;
-	private ImageView m_chartImageView;
+	private ZoomableImageView m_chartImageView;
 	private WheelView m_typeWheelView;
 	private WheelView m_numWheelView;
 	private Button m_queryButton;
@@ -214,7 +203,7 @@ public class HistoricalChartActivity extends SlideActivity {
 		m_fromCode = intent.getStringExtra(Calculator.CURRENCY_FROM_CODE);
 		m_toCode = intent.getStringExtra(Calculator.CURRENCY_TO_CODE);
 
-		m_chartImageView = (ImageView) findViewById(R.id.imageview_historical_chart);
+		m_chartImageView = (ZoomableImageView) findViewById(R.id.imageview_historical_chart);
 		m_typeWheelView = (WheelView) findViewById(R.id.wheelview_type);
 		m_typeWheelView.setVisibleItems(3);
 		m_numWheelView = (WheelView) findViewById(R.id.wheelview_num);
@@ -222,7 +211,7 @@ public class HistoricalChartActivity extends SlideActivity {
 		m_numWheelView.setViewAdapter(new NumericWheelAdapter(this, 1, 10));
 
 		TypeAdapter typeAdapter = new TypeAdapter(this);
-		typeAdapter.setTextSize(30);
+//		typeAdapter.setTextSize(30);
 		m_typeWheelView.setViewAdapter(typeAdapter);
 
 		m_typeWheelView.addChangingListener(new OnWheelChangedListener() {
@@ -269,7 +258,6 @@ public class HistoricalChartActivity extends SlideActivity {
 	}
 
 	private void queryHistoricalChart() {
-		// year ? month ? day ?
 		String type;
 		if (m_typeWheelView.getCurrentItem() == 0) {
 			type = "y";

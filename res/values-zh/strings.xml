@@ -13,6 +13,7 @@
     <string name="action_edit_item">编辑</string>
     <string name="action_finish_item">完成</string>
     <string name="action_about">关于</string>
+    <string name="action_tips">提示</string>
     <string name="action_calculate">计算</string>
     <string name="action_historical_chart">历史数据图表</string>
     <string name="action_delete">删除</string>
@@ -30,6 +31,7 @@
     <string name="info_no_rate">N/A</string>
     <string name="calculator_name">计算器</string><string name="text_calculator_one">1</string>
     <string name="historical_chart_name">历史数据图表</string>
+    <string name="tips_name">提示</string>
 	<string name="text_calculator_two">2</string>
 	<string name="text_calculator_three">3</string>
 	<string name="text_calculator_four">4</string>

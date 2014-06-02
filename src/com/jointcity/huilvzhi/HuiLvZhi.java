@@ -5,14 +5,12 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -28,6 +26,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+import com.google.ads.l;
+
 public class HuiLvZhi extends Activity {
 
 	private ExchangeListAdapter m_itemsAdapter;
@@ -38,6 +40,7 @@ public class HuiLvZhi extends Activity {
 	private ImageButton m_closeBannerButton;
 	private static HuiLvZhi sInstance;
 	private View m_bannerView;
+	private AdView m_adView;
 
 	private void init() {
 		sInstance = this;
@@ -62,6 +65,11 @@ public class HuiLvZhi extends Activity {
 		m_itemsAdapter = new ExchangeListAdapter(this, m_exchangeItems);
 		m_itemsAdapter.notifyDataSetChanged();
 		m_itemsList.setAdapter(m_itemsAdapter);
+		
+		m_adView = (AdView) findViewById(R.id.adview);
+		
+		AdRequest adRequest = new AdRequest();
+		m_adView.loadAd(adRequest);
 	}
 
 	private boolean isNetworkAvailable() {
@@ -121,6 +129,11 @@ public class HuiLvZhi extends Activity {
 			}
 		});
 		dialog.show();
+	}
+	
+	private void showTips() {
+		Intent intent = new Intent(this, TipsActivity.class);
+		startActivity(intent);
 	}
 
 	private void scrollDownList() {
@@ -205,6 +218,10 @@ public class HuiLvZhi extends Activity {
 
 		case R.id.action_about:
 			showAboutInfo();
+			break;
+			
+		case R.id.action_tips:
+			showTips();
 			break;
 		}
 		return true;
