@@ -169,6 +169,7 @@ public class HuiLvZhi extends Activity {
 	}
 
 	public void updateInvalidItems() {
+		m_adView.loadAd(new AdRequest());
 		for (int i = 0; i < m_exchangeItems.size(); ++i) {
 			if (!m_exchangeItems.get(i).isValid()) {
 				m_exchangeItems.get(i).startQuery();
