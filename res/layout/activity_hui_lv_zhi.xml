@@ -30,6 +30,7 @@
         ads:adUnitId="ca-app-pub-8053136859054400/8344265376"
         android:layout_weight="0.5"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

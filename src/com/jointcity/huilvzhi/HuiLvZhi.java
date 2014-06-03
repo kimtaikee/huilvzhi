@@ -24,11 +24,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.google.ads.l;
 
 public class HuiLvZhi extends Activity {
 
@@ -67,6 +67,7 @@ public class HuiLvZhi extends Activity {
 		m_itemsList.setAdapter(m_itemsAdapter);
 		
 		m_adView = (AdView) findViewById(R.id.adview);
+		m_adView.setVisibility(View.VISIBLE);
 		
 		AdRequest adRequest = new AdRequest();
 		m_adView.loadAd(adRequest);
@@ -119,6 +120,8 @@ public class HuiLvZhi extends Activity {
 		builder.setTitle(R.string.title_about);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.about_dialog, null);
+		TextView tv = (TextView) v.findViewById(R.id.textview_about_info);
+		tv.setText(AddExchangeItemDialog.readStringFromResource(this, R.raw.copyright));
 		builder.setView(v);
 		final AlertDialog dialog = builder.create();
 		Button closeButton = (Button) v.findViewById(R.id.button_close);

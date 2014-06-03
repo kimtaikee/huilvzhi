@@ -5,6 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
@@ -193,6 +196,7 @@ public class HistoricalChartActivity extends SlideActivity {
 	private WheelView m_typeWheelView;
 	private WheelView m_numWheelView;
 	private Button m_queryButton;
+	private AdView m_adView;
 	
 	private boolean scrolling = false;
 	
@@ -209,6 +213,8 @@ public class HistoricalChartActivity extends SlideActivity {
 		m_numWheelView = (WheelView) findViewById(R.id.wheelview_num);
 		m_numWheelView.setCyclic(true);
 		m_numWheelView.setViewAdapter(new NumericWheelAdapter(this, 1, 10));
+		m_adView = (AdView) findViewById(R.id.adview);
+		m_adView.loadAd(new AdRequest());
 
 		TypeAdapter typeAdapter = new TypeAdapter(this);
 //		typeAdapter.setTextSize(30);

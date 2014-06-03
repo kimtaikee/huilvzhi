@@ -52,4 +52,5 @@
 	<string name="item_year">Year</string>
 	<string name="item_month">Month</string>
 	<string name="item_day">Day</string>
+	<string name="na">N/A</string>
 </resources>

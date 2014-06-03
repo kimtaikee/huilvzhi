@@ -8,14 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
-        android:minHeight="100dp"
-        android:text="@string/info_about" />
+        android:minHeight="100dp" />
 
     <Button
         android:id="@+id/button_close"
         style="@style/btnStyleBeige"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:text="@string/text_close" />
 
 </LinearLayout>

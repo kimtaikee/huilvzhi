@@ -51,6 +51,7 @@ public class ExchangeListItem extends LinearLayout {
 				JSONObject json = new JSONObject(builder.toString());
 				m_rate = json.getJSONObject("query").getJSONObject("results").getJSONObject("rate").getString("Rate");
 			}catch (Exception exp) {
+				m_rate = getResources().getString(R.string.na);
 				exp.printStackTrace();
 			}
 			return m_rate;

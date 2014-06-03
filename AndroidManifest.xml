@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.jointcity.huilvzhi.HuiLvZhi"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +32,7 @@
             android:label="@string/calculator_name" />
         <activity
             android:name="com.jointcity.huilvzhi.HistoricalChartActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/historical_chart_name" />
         <activity
             android:name="com.jointcity.huilvzhi.TipsActivity"

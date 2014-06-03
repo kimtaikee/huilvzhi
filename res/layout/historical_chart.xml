@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#4b4b4b"
@@ -44,5 +45,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_query" />
+
+    <com.google.ads.AdView
+        android:id="@+id/adview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-8053136859054400/8344265376"
+        ads:loadAdOnCreate="true" />
 
 </LinearLayout>

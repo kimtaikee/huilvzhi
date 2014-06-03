@@ -43,7 +43,7 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 	}
 
 	private void init() {
-		List<String> strlist = Arrays.asList(readStringFromResource(m_context, R.raw.countries).split("\n"));
+		List<String> strlist = Arrays.asList(AddExchangeItemDialog.readStringFromResource(m_context, R.raw.countries).split("\n"));
 		m_currencyData = new ArrayList<CurrencyData>();
 		
 		for (int i = 0; i < strlist.size(); ++i) {
@@ -62,37 +62,6 @@ class CountryAdapter extends AbstractWheelTextAdapter {
 		init();
 	}
 
-	static public String readStringFromResource(Context ctx, int resourceID) {
-		StringBuilder contents = new StringBuilder();
-		String sep = System.getProperty("line.separator");
-
-		try {			
-			InputStream is = ctx.getResources().openRawResource(resourceID);
-
-			BufferedReader input =  new BufferedReader(new InputStreamReader(is), 1024*8);
-			try {
-				String line = null; 
-				while (( line = input.readLine()) != null){
-					contents.append(line);
-					contents.append(sep);
-				}
-			}
-			finally {
-				input.close();
-			}
-		}
-		catch (FileNotFoundException ex) {
-			Log.e("CountryAdapter", "Couldn't find the file " + resourceID  + " " + ex);
-			return null;
-		}
-		catch (IOException ex){
-			Log.e("CountryAdapter", "Error reading file " + resourceID + " " + ex);
-			return null;
-		}
-
-		return contents.toString();
-	}
-	
 	public String getCountryCode(int index) {
 		return m_currencyData.get(index).code;
 	}
@@ -201,5 +170,36 @@ public class AddExchangeItemDialog extends Dialog {
 	
 	public void setOnItemAddedListener(OnItemAddedListener listener) {
 		m_onItemAddedListener = listener;
+	}
+	
+	static public String readStringFromResource(Context ctx, int resourceID) {
+		StringBuilder contents = new StringBuilder();
+		String sep = System.getProperty("line.separator");
+
+		try {			
+			InputStream is = ctx.getResources().openRawResource(resourceID);
+
+			BufferedReader input =  new BufferedReader(new InputStreamReader(is), 1024*8);
+			try {
+				String line = null; 
+				while (( line = input.readLine()) != null){
+					contents.append(line);
+					contents.append(sep);
+				}
+			}
+			finally {
+				input.close();
+			}
+		}
+		catch (FileNotFoundException ex) {
+			Log.e("CountryAdapter", "Couldn't find the file " + resourceID  + " " + ex);
+			return null;
+		}
+		catch (IOException ex){
+			Log.e("CountryAdapter", "Error reading file " + resourceID + " " + ex);
+			return null;
+		}
+
+		return contents.toString();
 	}
 }

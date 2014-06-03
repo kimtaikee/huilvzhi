@@ -9,7 +9,8 @@ public class TipsActivity extends SlideActivity {
 	
 	private void init() {
 		m_tipsTextView = (TextView) findViewById(R.id.textview_tips);
-		m_tipsTextView.setText("Calculator: double tap the result area to erase it");
+		String tips = AddExchangeItemDialog.readStringFromResource(this, R.raw.tips);
+		m_tipsTextView.setText(tips);
 	}
 	
 	@Override
