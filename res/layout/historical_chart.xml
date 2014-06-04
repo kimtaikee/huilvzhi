@@ -7,19 +7,21 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:minHeight="200dp" >
 
         <com.jointcity.huilvzhi.ZoomableImageView
             android:id="@+id/imageview_historical_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="matrix" />
+            android:scaleType="fitXY" />
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
         android:orientation="horizontal" >

@@ -19,7 +19,7 @@
         android:id="@+id/viewstub_nonetworkbanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:inflatedId="@+id/inflated_nonetworkbanner"
         android:layout="@layout/no_network_banner" />
 
@@ -28,7 +28,6 @@
         ads:adSize="BANNER"
         ads:loadAdOnCreate="true"
         ads:adUnitId="ca-app-pub-8053136859054400/8344265376"
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="wrap_content" />

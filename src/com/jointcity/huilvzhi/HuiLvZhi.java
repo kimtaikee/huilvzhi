@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -203,6 +204,30 @@ public class HuiLvZhi extends Activity {
 				}
 			});
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.d("Tag", "onSaveInstanceState");
+	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.d("Tag", "onRestoreInstanceState");
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d("Tag", "onPause");
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("Tag", "onResume");
 	}
 
 	@Override
