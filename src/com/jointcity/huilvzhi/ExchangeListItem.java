@@ -113,11 +113,13 @@ public class ExchangeListItem extends LinearLayout {
 	public void setFromData(String code, String countryName) {
 		m_srcCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 		m_srcCountryItem.setCurrencyCode(code);
+		m_srcCountryItem.setCountryName(countryName);
 	}
 
 	public void setToData(String code, String countryName) {
 		m_dstCountryItem.setFlag(m_context.getResources().getIdentifier(countryName, "drawable", m_context.getPackageName()));
 		m_dstCountryItem.setCurrencyCode(code);
+		m_dstCountryItem.setCountryName(countryName);
 	}
 
 	public String getFromCode() {

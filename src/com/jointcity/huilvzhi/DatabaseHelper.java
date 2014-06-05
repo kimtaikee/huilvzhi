@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public static final String DB_NAME = "queryitems.db";
-	public static final int DB_VERSION = 3;
+	public static final int DB_VERSION = 4;
 	
 	public static final String COLUMN_ID = "ID";
 	public static final String COLUMN_FROM_COUNTRY = "FromColumn";

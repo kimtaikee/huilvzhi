@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import android.app.Dialog;
@@ -19,7 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView.ScaleType;
 
 class CountryAdapter extends AbstractWheelTextAdapter {
 
@@ -106,6 +109,8 @@ public class AddExchangeItemDialog extends Dialog {
 	private CountryAdapter m_dstCountryAdapter;
 	private Button m_cancelButton;
 	private Button m_okButton;
+	private TextView m_fromCountryTextView;
+	private TextView m_toCountryTextView;
 	private DataSource m_dataSource = DataSource.getInstance();
 	private OnItemAddedListener m_onItemAddedListener = null;
 
@@ -148,15 +153,31 @@ public class AddExchangeItemDialog extends Dialog {
 		m_srcCountryWheelView = (WheelView) findViewById(R.id.wheelview_src_country);
 		m_srcCountryWheelView.setViewAdapter(m_srcCountryAdapter);
 		m_srcCountryWheelView.setVisibleItems(3);
+		m_srcCountryWheelView.addChangingListener(new OnWheelChangedListener() {
+			public void onChanged(WheelView wheel, int oldValue, int newValue) {
+					final String countryName = m_srcCountryAdapter.getCountryName(newValue);
+					m_fromCountryTextView.setText(CountryItem.getRealName(countryName));
+			    }
+			});
+        
 
 		m_dstCountryWheelView = (WheelView) findViewById(R.id.wheelview_dst_country);
 		m_dstCountryWheelView.setViewAdapter(m_dstCountryAdapter);
 		m_dstCountryWheelView.setVisibleItems(3);
+		m_dstCountryWheelView.addChangingListener(new OnWheelChangedListener() {
+			public void onChanged(WheelView wheel, int oldValue, int newValue) {
+					final String countryName = m_dstCountryAdapter.getCountryName(newValue);
+					m_toCountryTextView.setText(CountryItem.getRealName(countryName));
+			    }
+			});
 
 		m_cancelButton = (Button) findViewById(R.id.button_cancel);
 		m_cancelButton.setOnClickListener(m_clickListener);
 		m_okButton = (Button) findViewById(R.id.button_ok);
 		m_okButton.setOnClickListener(m_clickListener);
+		
+		m_fromCountryTextView = (TextView) findViewById(R.id.textview_from_country);
+		m_toCountryTextView = (TextView) findViewById(R.id.textview_to_country);
 
 		setTitle(R.string.dialog_title_add_exchange_item);
 	}

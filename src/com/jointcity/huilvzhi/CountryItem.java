@@ -1,6 +1,7 @@
 package com.jointcity.huilvzhi;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -12,8 +13,10 @@ public class CountryItem extends LinearLayout {
 	Context m_context;
 	ImageView m_flagImageView;
 	TextView m_currencyCodeTextView;
+	TextView m_countryNameTextView;
 	int m_flagId;
 	String m_currencyCode;
+	private static final String SEPARATOR = "_";
 	
 	private void init(Context context) {
 		m_context = context;
@@ -22,6 +25,7 @@ public class CountryItem extends LinearLayout {
 		
 		m_flagImageView = (ImageView) findViewById(R.id.imageview_country_flag);
 		m_currencyCodeTextView = (TextView) findViewById(R.id.textview_currency_code);
+		m_countryNameTextView = (TextView) findViewById(R.id.textview_country_name);
 	}
 	
 	private void update() {
@@ -54,6 +58,26 @@ public class CountryItem extends LinearLayout {
 	
 	public String getCurrencyCode() {
 		return m_currencyCode;
+	}
+	 
+	public static String getRealName(CharSequence name) {
+		String strName = name.toString();
+		int leftUnderscoreIndex = strName.indexOf(SEPARATOR);
+		String namePart = TextUtils.substring(name, leftUnderscoreIndex + 1, strName.length());
+		String[] parts = namePart.split(SEPARATOR);
+		String realName = new String();
+		for (String part : parts) { 
+			if (TextUtils.equals(part, "and"))
+				realName += "& ";
+			else
+				realName += part.substring(0, 1).toUpperCase() + part.substring(1) + " ";
+		}
+		
+		return realName;
+	}
+	
+	public void setCountryName(CharSequence name) {
+		m_countryNameTextView.setText(getRealName(name));
 	}
 	
 	public void swap(CountryItem other) {

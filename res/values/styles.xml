@@ -95,5 +95,18 @@
         <item name="android:background">@drawable/custom_btn_beige</item>
         <item name="android:padding">10dip</item>
     </style>
+    
+    <style name="addItemDialogButtonStyle" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">@dimen/margin</item>
+        <item name="android:background">@drawable/prompt_text_background</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 
 </resources>

@@ -7,11 +7,10 @@
   
   <ImageView android:id="@+id/flag"
       android:layout_gravity="center_vertical"
-	  android:layout_width="36dp"
-	  android:layout_height="18dp"
-	  android:background="#F000"
-	  android:padding="1dp"
+	  android:layout_width="35dp"
+	  android:layout_height="28dp"
 	  android:scaleType="fitXY"
+	  android:padding="1dp"
 	  android:cropToPadding="true"/>
     
   <TextView android:id="@+id/country_name"
