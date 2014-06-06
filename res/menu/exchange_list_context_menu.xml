@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_calculate"
+        android:id="@+id/action_calculator"
         android:icon="@drawable/add"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
-        android:title="@string/action_calculate"/>
+        android:title="@string/action_calculator"/>
     <item
         android:id="@+id/action_update"
         android:orderInCategory="100"

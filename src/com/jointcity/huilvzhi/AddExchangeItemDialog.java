@@ -14,6 +14,8 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +24,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageView.ScaleType;
 
 class CountryAdapter extends AbstractWheelTextAdapter {
 
@@ -222,5 +223,17 @@ public class AddExchangeItemDialog extends Dialog {
 		}
 
 		return contents.toString();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		HuiLvZhi.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+	}
+	
+	@Override
+	public void dismiss() {
+		super.dismiss(); 
+		HuiLvZhi.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 	}
 }

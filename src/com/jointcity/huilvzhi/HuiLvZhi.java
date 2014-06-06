@@ -111,6 +111,7 @@ public class HuiLvZhi extends Activity {
 				eli.startQuery();
 				m_exchangeItems.add(eli);
 				m_itemsAdapter.notifyDataSetChanged();
+				scrollDownList();
 			}
 		});
 		dialog.show();
@@ -242,7 +243,6 @@ public class HuiLvZhi extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_add_item:
 			addItem();
-			scrollDownList();
 			break;
 
 		case R.id.action_about:
@@ -276,7 +276,7 @@ public class HuiLvZhi extends Activity {
 		ExchangeListItem exchangeItem = m_exchangeItems.get(exchangeItemIndex);
 
 		switch (item.getItemId()) {
-		case R.id.action_calculate:
+		case R.id.action_calculator:
 			Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
 			intent.putExtra(Calculator.CURRENCY_FROM_CODE, exchangeItem.getFromCode());
 			intent.putExtra(Calculator.CURRENCY_TO_CODE, exchangeItem.getToCode());

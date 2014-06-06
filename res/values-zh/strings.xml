@@ -14,7 +14,7 @@
     <string name="action_finish_item">完成</string>
     <string name="action_about">关于</string>
     <string name="action_tips">提示</string>
-    <string name="action_calculate">计算</string>
+    <string name="action_calculator">计算器</string>
     <string name="action_historical_chart">历史数据图表</string>
     <string name="action_delete">删除</string>
     <string name="action_update">更新</string>
