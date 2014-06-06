@@ -7,6 +7,12 @@
         <item name="update" >Update</item>
     </string-array>
     
+    <string-array name="chart_type">
+        <item name="line">Line</item>
+        <item name="bar">Bar</item>
+        <item name="candle">Candle</item>
+    </string-array>
+    
     <string name="app_name">Huilvzhi</string>
     <string name="action_settings">Settings</string>
     <string name="action_add_item">Add Item</string>
@@ -53,4 +59,7 @@
 	<string name="item_month">Month</string>
 	<string name="item_day">Day</string>
 	<string name="na">N/A</string>
+	<string name="chart_type_line">Line</string>
+	<string name="chart_type_bar">Bar</string>
+	<string name="chart_type_candle">Candle</string>
 </resources>

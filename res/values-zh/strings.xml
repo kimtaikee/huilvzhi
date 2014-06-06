@@ -51,5 +51,8 @@
 	<string name="item_year">年</string>
 	<string name="item_month">月</string>
 	<string name="item_day">日</string>
+	<string name="chart_type_line">曲线图</string>
+	<string name="chart_type_bar">条状图</string>
+	<string name="chart_type_candle">蜡烛图</string>
 
 </resources>

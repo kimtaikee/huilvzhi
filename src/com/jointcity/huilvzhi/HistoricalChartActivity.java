@@ -5,27 +5,26 @@ import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 
 class TypeAdapter extends AbstractWheelTextAdapter {
 
@@ -195,11 +194,12 @@ public class HistoricalChartActivity extends SlideActivity {
 	private ZoomableImageView m_chartImageView;
 	private WheelView m_typeWheelView;
 	private WheelView m_numWheelView;
+	private WheelView m_chartTypeWheelView;
 	private Button m_queryButton;
 	private AdView m_adView;
-	
+
 	private boolean scrolling = false;
-	
+
 	private void init() {
 		setContentView(R.layout.historical_chart);
 
@@ -213,12 +213,25 @@ public class HistoricalChartActivity extends SlideActivity {
 		m_numWheelView = (WheelView) findViewById(R.id.wheelview_num);
 		m_numWheelView.setCyclic(true);
 		m_numWheelView.setViewAdapter(new NumericWheelAdapter(this, 1, 10));
+		m_chartTypeWheelView = (WheelView) findViewById(R.id.wheelview_chart_type);
+
+		//		m_chartTypeWheelView.setViewAdapter(new ChartTypeAdapter(this));
+
 		m_adView = (AdView) findViewById(R.id.adview);
 		m_adView.loadAd(new AdRequest());
 
 		TypeAdapter typeAdapter = new TypeAdapter(this);
-//		typeAdapter.setTextSize(30);
+		//		typeAdapter.setTextSize(30);
 		m_typeWheelView.setViewAdapter(typeAdapter);
+
+		String[] chartTypes = new String[] { getResources().getString(R.string.chart_type_line),
+				getResources().getString(R.string.chart_type_bar),
+				getResources().getString(R.string.chart_type_candle)};
+
+		ArrayWheelAdapter<String> chartTypeAdapter = new ArrayWheelAdapter<String>(this, chartTypes);
+		chartTypeAdapter.setTextSize(typeAdapter.getTextSize());
+		m_chartTypeWheelView.setViewAdapter(chartTypeAdapter);
+
 
 		m_typeWheelView.addChangingListener(new OnWheelChangedListener() {
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
@@ -237,7 +250,7 @@ public class HistoricalChartActivity extends SlideActivity {
 				updateNumbers(m_typeWheelView.getCurrentItem());
 			}
 		});
-		
+
 		m_queryButton = (Button) findViewById(R.id.button_query);
 		m_queryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -272,9 +285,24 @@ public class HistoricalChartActivity extends SlideActivity {
 		} else {
 			type = "d";
 		}
-		
+
 		String num = String.valueOf(m_numWheelView.getCurrentItem() + 1);
-		String url = "http://chart.finance.yahoo.com/z?s=" + m_fromCode + m_toCode + "=x&t=" + num + type + "&z=m";
+		String chartType = null;
+		switch (m_chartTypeWheelView.getCurrentItem()) {
+		case 0:
+			chartType = new String("l");
+			break;
+			
+		case 1:
+			chartType = new String("b");
+			break;
+			
+		case 2:
+			chartType = new String("c");
+			break;
+		}
+		
+		String url = "http://chart.finance.yahoo.com/z?s=" + m_fromCode + m_toCode + "=x&t=" + num + type + "&z=l&q=" + chartType;
 		new ImageDownloader().execute(url);
 	}
 

@@ -14,17 +14,25 @@
         <com.jointcity.huilvzhi.ZoomableImageView
             android:id="@+id/imageview_historical_chart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
             android:scaleType="fitXY" />
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
+        android:layout_weight="4"
         android:orientation="horizontal" >
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheelview_chart_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheelview_type"
