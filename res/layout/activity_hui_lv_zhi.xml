@@ -19,7 +19,6 @@
         android:id="@+id/viewstub_nonetworkbanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:inflatedId="@+id/inflated_nonetworkbanner"
         android:layout="@layout/no_network_banner" />
 

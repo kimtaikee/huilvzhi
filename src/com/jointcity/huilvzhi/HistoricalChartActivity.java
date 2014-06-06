@@ -10,18 +10,19 @@ import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
-import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
@@ -197,6 +198,8 @@ public class HistoricalChartActivity extends SlideActivity {
 	private WheelView m_chartTypeWheelView;
 	private Button m_queryButton;
 	private AdView m_adView;
+	private ViewStub m_viewstub;
+	private ImageButton m_closeBannerButton;
 
 	private boolean scrolling = false;
 
@@ -211,7 +214,7 @@ public class HistoricalChartActivity extends SlideActivity {
 		m_typeWheelView = (WheelView) findViewById(R.id.wheelview_type);
 		m_typeWheelView.setVisibleItems(3);
 		m_numWheelView = (WheelView) findViewById(R.id.wheelview_num);
-		m_numWheelView.setCyclic(true);
+		m_numWheelView.setCyclic(false);
 		m_numWheelView.setViewAdapter(new NumericWheelAdapter(this, 1, 10));
 		m_chartTypeWheelView = (WheelView) findViewById(R.id.wheelview_chart_type);
 
@@ -260,6 +263,15 @@ public class HistoricalChartActivity extends SlideActivity {
 		});
 	}
 
+	private boolean isNetworkAvailable() {
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		boolean isConnected = activeNetwork != null &&
+				activeNetwork.isConnectedOrConnecting();
+		return isConnected;
+	}
+
 	private void updateNumbers(int index) {
 		switch (index) {
 		case 0:
@@ -277,6 +289,22 @@ public class HistoricalChartActivity extends SlideActivity {
 	}
 
 	private void queryHistoricalChart() {
+		if (!isNetworkAvailable()) {
+			if (m_viewstub == null) {
+				m_viewstub = (ViewStub) findViewById(R.id.viewstub_no_network_banner);
+				View v = m_viewstub.inflate();
+				m_closeBannerButton = (ImageButton) v.findViewById(R.id.imagebutton_close);
+				m_closeBannerButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						m_viewstub.setVisibility(View.GONE);
+					}
+				});
+			}
+			
+			m_viewstub.setVisibility(View.VISIBLE);
+		}
+
 		String type;
 		if (m_typeWheelView.getCurrentItem() == 0) {
 			type = "y";
@@ -292,16 +320,16 @@ public class HistoricalChartActivity extends SlideActivity {
 		case 0:
 			chartType = new String("l");
 			break;
-			
+
 		case 1:
 			chartType = new String("b");
 			break;
-			
+
 		case 2:
 			chartType = new String("c");
 			break;
 		}
-		
+
 		String url = "http://chart.finance.yahoo.com/z?s=" + m_fromCode + m_toCode + "=x&t=" + num + type + "&z=l&q=" + chartType;
 		new ImageDownloader().execute(url);
 	}

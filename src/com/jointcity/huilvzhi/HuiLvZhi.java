@@ -66,10 +66,10 @@ public class HuiLvZhi extends Activity {
 		m_itemsAdapter = new ExchangeListAdapter(this, m_exchangeItems);
 		m_itemsAdapter.notifyDataSetChanged();
 		m_itemsList.setAdapter(m_itemsAdapter);
-		
+
 		m_adView = (AdView) findViewById(R.id.adview);
 		m_adView.setVisibility(View.VISIBLE);
-		
+
 		AdRequest adRequest = new AdRequest();
 		m_adView.loadAd(adRequest);
 	}
@@ -135,7 +135,7 @@ public class HuiLvZhi extends Activity {
 		});
 		dialog.show();
 	}
-	
+
 	private void showTips() {
 		Intent intent = new Intent(this, TipsActivity.class);
 		startActivity(intent);
@@ -147,25 +147,25 @@ public class HuiLvZhi extends Activity {
 				m_itemsList.setSelection(m_itemsList.getCount() - 1);
 			}});
 	}
-	
+
 	private void queryHistoricalChart(ExchangeListItem eli) {
 		Intent intent = new Intent(this, HistoricalChartActivity.class);
 		intent.putExtra(Calculator.CURRENCY_FROM_CODE, eli.getFromCode());
 		intent.putExtra(Calculator.CURRENCY_TO_CODE, eli.getToCode());
 		startActivity(intent);
 	}
-	
+
 	public void removeExchangeListItem(final int index) {
 		final ExchangeListItem eli = m_exchangeItems.get(index);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setPositiveButton(R.string.text_yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            	m_exchangeItems.remove(index);
-            	m_dataSource.deleteItem(eli.getFromCode(), eli.getToCode());
-            	m_itemsAdapter.notifyDataSetChanged();
-            }
-        });
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				m_exchangeItems.remove(index);
+				m_dataSource.deleteItem(eli.getFromCode(), eli.getToCode());
+				m_itemsAdapter.notifyDataSetChanged();
+			}
+		});
 		builder.setNegativeButton(R.string.text_no, null);
 		String msg = getResources().getString(R.string.prompt_delete_item) + eli.getFromCode() + "=>" + eli.getToCode();
 		builder.setMessage(msg);
@@ -206,25 +206,25 @@ public class HuiLvZhi extends Activity {
 			});
 		}
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		Log.d("Tag", "onSaveInstanceState");
 	}
-	
+
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		Log.d("Tag", "onRestoreInstanceState");
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		Log.d("Tag", "onPause");
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -248,7 +248,7 @@ public class HuiLvZhi extends Activity {
 		case R.id.action_about:
 			showAboutInfo();
 			break;
-			
+
 		case R.id.action_tips:
 			showTips();
 			break;
@@ -277,11 +277,15 @@ public class HuiLvZhi extends Activity {
 
 		switch (item.getItemId()) {
 		case R.id.action_calculator:
-			Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
-			intent.putExtra(Calculator.CURRENCY_FROM_CODE, exchangeItem.getFromCode());
-			intent.putExtra(Calculator.CURRENCY_TO_CODE, exchangeItem.getToCode());
-			intent.putExtra(Calculator.RATE, exchangeItem.getRate());
-			startActivity(intent);
+			if (exchangeItem.isValid()) {
+				Intent intent = new Intent(HuiLvZhi.this, Calculator.class);
+				intent.putExtra(Calculator.CURRENCY_FROM_CODE, exchangeItem.getFromCode());
+				intent.putExtra(Calculator.CURRENCY_TO_CODE, exchangeItem.getToCode());
+				intent.putExtra(Calculator.RATE, exchangeItem.getRate());
+				startActivity(intent);
+			} else {
+				Toast.makeText(this, R.string.prompt_invalid_rate, Toast.LENGTH_LONG).show();
+			}
 			break;
 
 		case R.id.action_delete:
@@ -291,7 +295,7 @@ public class HuiLvZhi extends Activity {
 		case R.id.action_update:
 			exchangeItem.startQuery();
 			break;
-			
+
 		case R.id.action_historical_chart:
 			queryHistoricalChart(exchangeItem);
 			break;

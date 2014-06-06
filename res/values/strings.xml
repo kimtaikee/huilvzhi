@@ -62,4 +62,5 @@
 	<string name="chart_type_line">Line</string>
 	<string name="chart_type_bar">Bar</string>
 	<string name="chart_type_candle">Candle</string>
+	<string name="prompt_invalid_rate">Invalid rate</string>
 </resources>

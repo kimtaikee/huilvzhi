@@ -54,5 +54,6 @@
 	<string name="chart_type_line">曲线图</string>
 	<string name="chart_type_bar">条状图</string>
 	<string name="chart_type_candle">蜡烛图</string>
+	<string name="prompt_invalid_rate">无效汇率</string>
 
 </resources>
