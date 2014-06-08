@@ -157,7 +157,7 @@ public class AddExchangeItemDialog extends Dialog {
 		m_srcCountryWheelView.addChangingListener(new OnWheelChangedListener() {
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
 					final String countryName = m_srcCountryAdapter.getCountryName(newValue);
-					m_fromCountryTextView.setText(CountryItem.getRealName(countryName));
+					m_fromCountryTextView.setText(CountryItem.getRealName(m_context, countryName));
 			    }
 			});
         
@@ -168,7 +168,7 @@ public class AddExchangeItemDialog extends Dialog {
 		m_dstCountryWheelView.addChangingListener(new OnWheelChangedListener() {
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
 					final String countryName = m_dstCountryAdapter.getCountryName(newValue);
-					m_toCountryTextView.setText(CountryItem.getRealName(countryName));
+					m_toCountryTextView.setText(CountryItem.getRealName(m_context, countryName));
 			    }
 			});
 

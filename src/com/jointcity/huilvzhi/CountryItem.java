@@ -60,24 +60,28 @@ public class CountryItem extends LinearLayout {
 		return m_currencyCode;
 	}
 	 
-	public static String getRealName(CharSequence name) {
+	public static String getRealName(Context context, CharSequence name) {
 		String strName = name.toString();
+		
 		int leftUnderscoreIndex = strName.indexOf(SEPARATOR);
 		String namePart = TextUtils.substring(name, leftUnderscoreIndex + 1, strName.length());
-		String[] parts = namePart.split(SEPARATOR);
-		String realName = new String();
-		for (String part : parts) { 
-			if (TextUtils.equals(part, "and"))
-				realName += "& ";
-			else
-				realName += part.substring(0, 1).toUpperCase() + part.substring(1) + " ";
-		}
-		
+		int id = context.getResources().getIdentifier(namePart, "string", context.getPackageName());
+		String realName = context.getResources().getString(id);
 		return realName;
+//		String[] parts = namePart.split(SEPARATOR);
+//		String realName = new String();
+//		for (String part : parts) { 
+//			if (TextUtils.equals(part, "and"))
+//				realName += "& ";
+//			else
+//				realName += part.substring(0, 1).toUpperCase() + part.substring(1) + " ";
+//		}
+//		
+//		return realName;
 	}
 	
 	public void setCountryName(CharSequence name) {
-		m_countryNameTextView.setText(getRealName(name));
+		m_countryNameTextView.setText(getRealName(m_context, name));
 	}
 	
 	public void swap(CountryItem other) {
