@@ -22,9 +22,9 @@
             android:id="@+id/textview_country_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="top|center_horizontal"
             android:layout_marginLeft="@dimen/margin"
-            android:gravity="center"
+            android:gravity="center|top"
             android:paddingBottom="@dimen/margin"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />

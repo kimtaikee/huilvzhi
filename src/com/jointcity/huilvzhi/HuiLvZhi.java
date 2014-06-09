@@ -42,6 +42,7 @@ public class HuiLvZhi extends Activity {
 	private static HuiLvZhi sInstance;
 	private View m_bannerView;
 	private AdView m_adView;
+	private static final String SAVE_TAG = "ExchangeItems";
 
 	private void init() {
 		sInstance = this;
@@ -59,7 +60,9 @@ public class HuiLvZhi extends Activity {
 			// order really matters
 			eli.setFromData(exchangeItems.get(i).getFromCode(), exchangeItems.get(i).getFromCountry());
 			eli.setToData(exchangeItems.get(i).getToCode(), exchangeItems.get(i).getToCountry());
-			eli.startQuery();
+			
+			if (!eli.isValid())
+				eli.startQuery();
 			m_exchangeItems.add(eli);
 		}
 
@@ -190,6 +193,7 @@ public class HuiLvZhi extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		configOverflowMenu();
 		setContentView(R.layout.activity_hui_lv_zhi);
 		init();
@@ -210,13 +214,34 @@ public class HuiLvZhi extends Activity {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		Log.d("Tag", "onSaveInstanceState");
+		ArrayList<ExchangeListItemData> saveData = new ArrayList<ExchangeListItemData>();
+		for (int i = 0; i < m_exchangeItems.size(); ++i) {
+			ExchangeListItem eli = m_exchangeItems.get(i);
+			ExchangeListItemData data = new ExchangeListItemData(eli.getRate(), eli.getFromFlag(), eli.getToFlag(),
+																 eli.getFromCode(), eli.getToCode(), eli.getFromCountryName(), eli.getToCountryName());
+			saveData.add(data);
+		}
+		
+		outState.putParcelableArrayList(SAVE_TAG, saveData);
 	}
 
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		Log.d("Tag", "onRestoreInstanceState");
+		m_exchangeItems.clear();
+		ArrayList<ExchangeListItemData> saveData = savedInstanceState.getParcelableArrayList(SAVE_TAG);
+		
+		for (int i = 0; i < saveData.size(); ++i) {
+			ExchangeListItemData elid = saveData.get(i);
+			ExchangeListItem eli = new ExchangeListItem(this);
+			eli.setRate(elid.getRate());
+			eli.setFromData(elid.getFromCode(), elid.getFromCountryName());
+			eli.setToData(elid.getToCode(), elid.getToCountryName());
+			m_exchangeItems.add(eli);
+		}
+		
+		m_itemsAdapter.notifyDataSetChanged();
+		
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class CountryItem extends LinearLayout {
 	TextView m_countryNameTextView;
 	int m_flagId;
 	String m_currencyCode;
+	String m_countryName;
 	private static final String SEPARATOR = "_";
 	
 	private void init(Context context) {
@@ -28,7 +29,7 @@ public class CountryItem extends LinearLayout {
 		m_countryNameTextView = (TextView) findViewById(R.id.textview_country_name);
 	}
 	
-	private void update() {
+	public void update() {
 		m_flagImageView.setImageDrawable(getResources().getDrawable(m_flagId));
 		m_currencyCodeTextView.setText(m_currencyCode);
 	}
@@ -48,12 +49,14 @@ public class CountryItem extends LinearLayout {
 	
 	public void setFlag(int flagId) {
 		m_flagId = flagId;
-		update();
+	}
+	
+	public int getFlag() {
+		return m_flagId;
 	}
 	
 	public void setCurrencyCode(CharSequence code) {
 		m_currencyCode = String.valueOf(code);
-		update();
 	}
 	
 	public String getCurrencyCode() {
@@ -62,26 +65,20 @@ public class CountryItem extends LinearLayout {
 	 
 	public static String getRealName(Context context, CharSequence name) {
 		String strName = name.toString();
-		
 		int leftUnderscoreIndex = strName.indexOf(SEPARATOR);
 		String namePart = TextUtils.substring(name, leftUnderscoreIndex + 1, strName.length());
 		int id = context.getResources().getIdentifier(namePart, "string", context.getPackageName());
 		String realName = context.getResources().getString(id);
 		return realName;
-//		String[] parts = namePart.split(SEPARATOR);
-//		String realName = new String();
-//		for (String part : parts) { 
-//			if (TextUtils.equals(part, "and"))
-//				realName += "& ";
-//			else
-//				realName += part.substring(0, 1).toUpperCase() + part.substring(1) + " ";
-//		}
-//		
-//		return realName;
 	}
 	
 	public void setCountryName(CharSequence name) {
+		m_countryName = name.toString();
 		m_countryNameTextView.setText(getRealName(m_context, name));
+	}
+	
+	public String getCountryName() {
+		return m_countryName;
 	}
 	
 	public void swap(CountryItem other) {
