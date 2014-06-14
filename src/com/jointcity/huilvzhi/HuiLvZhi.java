@@ -196,7 +196,7 @@ public class HuiLvZhi extends Activity {
 		
 		configOverflowMenu();
 		setContentView(R.layout.activity_hui_lv_zhi);
-		init();
+		init(); 
 
 		if (!isNetworkAvailable()) {
 			final ViewStub vs = (ViewStub) findViewById(R.id.viewstub_nonetworkbanner);

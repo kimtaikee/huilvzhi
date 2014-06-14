@@ -6,6 +6,12 @@
         <item>删除</item>
         <item>更新</item>
     </string-array>
+    
+    <string-array name="chart_type">
+        <item name="line">曲线图</item>
+        <item name="bar">条状图</item>
+        <item name="candle">蜡烛图</item>
+    </string-array>
 
     <string name="app_name">汇率知</string>
     <string name="action_settings">设置</string>
@@ -44,6 +50,7 @@
     <string name="text_calculator_zero">0</string>
     <string name="text_calculator_equal">=</string>
     <string name="text_calculator_clear">清除</string>
+    <string name="text_calculator_dot">.</string>
     <string name="text_yes">好</string>
     <string name="text_no">不</string>
     <string name="text_query">查询</string>
@@ -52,6 +59,7 @@
     <string name="item_year">年</string>
     <string name="item_month">月</string>
     <string name="item_day">日</string>
+    <string name="na">N/A</string>
     <string name="chart_type_line">曲线图</string>
     <string name="chart_type_bar">条状图</string>
     <string name="chart_type_candle">蜡烛图</string>
